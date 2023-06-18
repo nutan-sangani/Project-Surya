@@ -8,7 +8,7 @@ import { useMediaQuery } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
 
 
-function Login() {
+function Signup() {
     const theme = createTheme({
       breakpoints: {
         values: {
@@ -33,7 +33,11 @@ function Login() {
     //we wont be validating the name
     function handle(event,index)
     {
-      if(index===2)
+      if(index===1)
+      {
+        setName(event.target.value);
+      }
+      else if(index===2)
       {
         setEmail(event.target.value);
         let entered_value=event.target.value;
@@ -77,6 +81,26 @@ function Login() {
           );
         }
       }
+      else if(index===4)
+      {
+        setMobile(event.target.value);
+        let entered_value=event.target.value;
+        let regMob=/^\d{10}$/;
+        if(entered_value.match(regMob))
+        {
+          setMobileError('');
+          setMobileHT('');
+        }
+        else
+        {
+          setMobileError('a');
+          setMobileHT(
+            <>
+              Should Contain 10 digits only
+            </>
+          );
+        }
+      }
     };
 
 
@@ -86,6 +110,13 @@ function Login() {
       <div className='container'>
         <img src={logo_img} className='logo_img'/>
           <div className='form'>
+              <h4>NAME</h4>
+                <TextField variant='outlined' color="secondary" size='small'
+                label='Name' placeholder='eg : Steve'
+                value={name}
+                onChange={(e)=> { handle(e,1); }}
+                sx={{gridColumnStart:'2', width:'100%', fontSize:"10px"}}
+                />
               <h4>EMAIL</h4> 
                 <TextField variant='outlined' required="true" color="secondary" size='small' 
                 error={emailError}
@@ -94,7 +125,6 @@ function Login() {
                 onChange={(e)=> { handle(e,2); }}
                 inputProps={{style: {fontSize: '20'}}}
                 label='Email' placeholder='example@gmail.com'
-                sx={{gridColumnStart:'2', width:'100%', fontSize:"10px"}}
                 />
               <h4>PASSWORD</h4>
                 <TextField variant='outlined' required="true" color="secondary" type='password' size='small' 
@@ -103,10 +133,17 @@ function Login() {
                 helperText={passHT}
                 onChange={(e)=> { handle(e,3); }}
                 label='PassWord' placeholder='Password'/>
+              <h4>MOBILE NO</h4>
+                <TextField variant='outlined' required="true" color="secondary" size='small' 
+                 error={mobileError}
+                 value={mobile}
+                 helperText={mobileHT}
+                 onChange={(e)=> { handle(e,4); }}
+                 label='Mobile Number' placeholder='eg : 9923456789'/>
           </div>
           <Button variant="contained" size='large' color="secondary"
           sx={{width:matches ? "97%" : "121%",marginTop:'40px',backgroundColor:'purple'}}>
-            SIGN IN
+            SIGN UP
           </Button>
       </div>
     </div>
@@ -114,4 +151,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Signup;
