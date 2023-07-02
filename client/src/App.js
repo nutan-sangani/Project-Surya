@@ -1,9 +1,9 @@
 import './App.css';
-import SignUp from './pages/Login';
+import Login from './pages/Login.jsx';
 function App() {
   return (
     <div className="App">
-        <SignUp/>
+        <Login button_text="SIGNIN" signup=""/>
     </div>
   );
 }
