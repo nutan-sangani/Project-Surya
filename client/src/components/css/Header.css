@@ -1,0 +1,45 @@
+.contain{
+    background-color: purple;
+    width: 100%;
+    min-width: 319px;
+}
+
+.header{
+    margin: 0 auto;
+    height: 55px;
+    max-width: 1440px;
+    display: flex;
+    gap: 2.5%;
+    align-items: center;
+}
+.header__options{
+    margin-left: 1%;
+}
+.header__logo{
+    height: 50%;
+    width: 38%;
+    max-width: 6rem;
+    min-width: 63px;
+}
+.header__logo > img{
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+    max-width: 6rem;
+    object-fit: cover;
+    margin-right: auto;
+}
+
+.header__searchBar{
+    width:35%;
+    min-width: 100px;
+    margin-left: auto;
+}
+.header__searchBar > input {
+    width: 100%;
+    height: 32px;
+    border-radius: 4px;
+}
+.header__profileBtn{
+    margin-right: 1%;
+}
