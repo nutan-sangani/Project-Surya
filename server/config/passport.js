@@ -4,7 +4,7 @@ const User = require("../models/user.model");
 
 var opts = {}
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-opts.secretOrKey = "my_website_secret";
+opts.secretOrKey = "my_website_secret"; //change this
 
 const jwtStrategy = new JwtStrategy(opts, async function(jwt_payload, done) {
     let user=null ;
@@ -18,7 +18,7 @@ const jwtStrategy = new JwtStrategy(opts, async function(jwt_payload, done) {
     }
     if(user)
         return done(null,user);
-    else return done(null,false); //ie error nhi h and user bhi nhi h, means user exist hi nhi krta.
+    else return done("user not found",false); //ie error nhi h and user bhi nhi h, means user exist hi nhi krta.
 });
 
 module.exports = jwtStrategy;

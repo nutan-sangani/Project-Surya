@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
+const cors = require("cors");
 const passport = require("passport");
 const moment = require("moment");
 const jwtStrategy = require("./config/passport");
@@ -10,6 +11,9 @@ const routes = require("./routes");
 const  app = express();
 
 app.use(express.json());
+
+app.use(cors());
+app.options("*",cors());
 
 mongoose.connect("mongodb://127.0.0.1:27017/BookForAll")
        .then(()=> console.log("connected to db"))

@@ -1,13 +1,19 @@
 const express = require("express");
+const moment = require("moment");
+const jwt = require("jsonwebtoken");
 const router=express.Router();
+const auth = require("../middlewares/auth");
+const {User} = require("../models");
+const passport = require("passport");
 
 router.post("/register",async function(req,res){
+    console.log(req.body);
     const user = await User.insertMany({username:req.body.name,
     email:req.body.email,
     password:req.body.password})
     .catch((err) => console.log(err));
     const expires = moment().add(
-        25,
+        2000,
         'minutes',
       );
     const userId = user._id;
@@ -20,8 +26,7 @@ router.post("/register",async function(req,res){
       res.status(200).send({user,tokens});
 });
 
-router.get('/secret',passport.authenticate('jwt',{session:false}),function(req,res){
-    console.log(res,req);
+router.get('/secret',auth(),function(req,res){
     res.send("thjis is our secret");
 });
 
