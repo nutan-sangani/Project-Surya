@@ -1,0 +1,54 @@
+body{
+    background-color:#e0e4dd ;
+}
+.card--container{
+    width: max-content;
+    font-size: 15px;
+    margin-bottom: 10px;
+    /* background-color: rgb(226, 215, 215); */
+    background-color: white;
+    max-width: 300px;
+    border: 1px solid grey;
+    border-radius: 6px;
+    margin-top: 16px;
+    margin-left: 5px;
+    margin-right: 5px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+}
+.card__title > h4{
+    padding-top: 2%;
+    margin:0 0;
+    
+}
+.card__classInfo{
+    display: flex;
+    gap: 3%;
+    margin: 0px 0px;
+}
+.card_flex_item{
+    width: 100%;
+    font-size: 13px;
+}
+.card__img{
+    height: 230px;
+}
+.card__img > img{
+    width: 70%;
+}
+.card__city{
+
+}
+.card__btn{
+    font-size: 14px;
+    padding: 0.5em 0.9em;
+    margin-bottom: 3%;
+    width: 95%;
+    background-color: rgb(6, 148, 51);
+    color: white;
+    font-weight: 900;
+}
+.card__btn:hover{
+    cursor: pointer;
+    background-color:rgb(26, 113, 26);
+}

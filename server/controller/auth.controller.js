@@ -3,11 +3,11 @@ const moment = require("moment");
 const jwt = require("jsonwebtoken");
 
 const { User } = require("../models/user.model");
-const { AuthServices } = require("../services");
+const { AUTHSERVICE } = require("../services");
 
 const CONTROLLER = {
     register : async (req,res) => {
-        const user = await AuthServices.createUser(req.body);
+        const user = await AUTHSERVICE.createUser(req.body);
         const userId = user._id;
         const expires = moment().add(config.jwt.expirationTime,'minutes');
         const payload = {

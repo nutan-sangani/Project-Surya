@@ -1,5 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const { connect } = require('./utils');
+const morgan = require('morgan');
+const fileUpload = require('express-fileupload'); //used for getting formData from frontend in readable format
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const passport = require("passport");
@@ -10,14 +13,19 @@ const routes = require("./routes");
 
 const  app = express();
 
+app.use(morgan("tiny"));
+
 app.use(express.json());
+
+app.use(fileUpload());
 
 app.use(cors());
 app.options("*",cors());
 
-mongoose.connect("mongodb://127.0.0.1:27017/BookForAll")
-       .then(()=> console.log("connected to db"))
-       .catch((err) => console.log(err));
+// mongoose.connect("mongodb://127.0.0.1:27017/BookForAll")
+//        .then(()=> console.log("connected to db"))
+//        .catch((err) => console.log(err));
+connect();
 
 app.use(passport.initialize());
 passport.use('jwt', jwtStrategy);
@@ -28,3 +36,8 @@ app.listen(5000,function(err){
     if(err) console.log(err);
     else console.log("listening on port 5000");
 });
+
+//got to learn lots of new things about middlewares, especially error handling middlewares
+
+//the most important one is, ki index me middlewares jis order me hote h, ussi order me request flows through them, if koi middleware pehle
+// hi uspe response nhi de deta toh. (yani app.use() ka order matters).

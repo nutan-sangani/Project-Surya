@@ -1,11 +1,16 @@
 import React from 'react';
 import {FaBars,FaRegUserCircle} from 'react-icons/fa';
 import Button from '@mui/material/Button';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './css/Header.css';
 import site_logo from '../assets/logo_img.png';
 
 function Header() {
+    const navigate = useNavigate();
+    function login(){
+        navigate('/login');
+    }
+
   return (
     <div className='contain'>
         <div className='header'>
@@ -19,11 +24,11 @@ function Header() {
                 <input  placeholder='  Search'/>
             </div>
             <div className="header__loginBtn">
-                <Button variant='contained' size='small' color='secondary'
+                <Button variant='contained' size='small' color='secondary' onClick={login}
                     sx={{height:"28px",fontWeight:"900" ,color:"purple",backgroundColor:"white"}}>LOGIN </Button>
             </div>
             <div className="header__profileBtn">
-                <Link to='/profle'>
+                <Link to='/profile'>
                     <FaRegUserCircle size={'32px'} color='white'/>
                 </Link>
             </div>
