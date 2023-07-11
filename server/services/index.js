@@ -1,1 +1,2 @@
-module.exports.AuthServices = require("./auth.services");
+module.exports.AUTHSERVICE = require("./auth.services");
+module.exports.BOOKSERVICE = require("./book.services");
