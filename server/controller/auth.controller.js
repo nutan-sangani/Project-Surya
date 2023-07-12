@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const moment = require("moment");
 const jwt = require("jsonwebtoken");
 const { JWT } = require('../utils');
-const { User } = require("../models/user.model");
+const { User } = require("../models");
 const { USERSERVICE } = require("../services");
 const httpStatus = require("http-status");
 const { getRes } = require("../utils/responseTemplate");
@@ -38,6 +38,12 @@ const CONTROLLER = {
             next(err);
         }
     },
+
+    plugin : async (req,res) =>{
+        await User.paginate(null,{sortBy:req.query.sortBy});
+        // const data = await User.find({});
+        return res.send('success');
+    }
 
 };
 
