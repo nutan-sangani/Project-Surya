@@ -1,6 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const { connect } = require('./utils');
+const { connect,errorHandler,customError } = require('./utils');
 const morgan = require('morgan');
 const fileUpload = require('express-fileupload'); //used for getting formData from frontend in readable format
 const jwt = require("jsonwebtoken");
@@ -8,8 +8,11 @@ const cors = require("cors");
 const passport = require("passport");
 const moment = require("moment");
 const jwtStrategy = require("./config/passport");
+const { config } = require("./config");
 const User = require("./models/user.model");
 const routes = require("./routes");
+const httpStatus = require("http-status");
+const { errorMiddleware } = require('./middlewares');
 
 const  app = express();
 
@@ -32,9 +35,20 @@ passport.use('jwt', jwtStrategy);
 
 app.use("/",routes);
 
-app.listen(5000,function(err){
+app.use(errorHandler);
+
+//when the route is not found and error is also not raised, it means that the api endpoint does not exist
+app.use((req, res, next) => {
+    next(new customError('NOT_FOUND',httpStatus.NOT_FOUND,'Enter a valid API endpoint','NOT_FOUND'));
+});
+
+app.use(errorMiddleware.errorConverter); //converts Error to customError.
+
+app.use(errorMiddleware.customErrorHandler); //generates res for customError.
+
+app.listen(config.port,function(err){
     if(err) console.log(err);
-    else console.log("listening on port 5000");
+    else console.log(`listening on port ${config.port}`);
 });
 
 //got to learn lots of new things about middlewares, especially error handling middlewares
