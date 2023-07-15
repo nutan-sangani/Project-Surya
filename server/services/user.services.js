@@ -14,7 +14,11 @@ const SERVICES = {
     },
     findUserByEmail : async (email) => {
         return await User.findOne({email:email});
-    }
+    },
+    
+    getUserById : async(userId) =>{
+        return await User.findOne(userId);
+    },
 };
 
 module.exports = SERVICES;

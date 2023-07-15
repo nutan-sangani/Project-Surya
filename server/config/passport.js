@@ -1,7 +1,7 @@
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const httpStatus = require('http-status');
-const User = require("../models/user.model");
+const { USERSERVICE }= require('../services');
 const { customError } = require('../utils');
 const { config } = require("./");
 
@@ -12,7 +12,7 @@ opts.secretOrKey = config.jwt.secret_key;
 const jwtStrategy = new JwtStrategy(opts, async function(jwt_payload, done) {
     let user=null ;
     let err=null;
-    await User.findOne({_id: jwt_payload.sub})
+    await USERSERVICE.getUserById({_id: jwt_payload.sub})
               .then((found_item)=>user=found_item)
               .catch((error)=> err=error);
     if(err)

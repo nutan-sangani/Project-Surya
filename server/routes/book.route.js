@@ -3,12 +3,13 @@ const mongoose=require("mongoose");
 const router=express.Router();
 const auth = require("../middlewares/auth");
 const sharp=require('sharp');
+const { Book } = require('../models');
 
-// router.route('/')
-//       .get()
-
-
-
+// router.get('/',async function(req,res){
+//   console.log(req.query.sortBy); //-name 
+//   const data=await Book.find({}).sort(req.query.sortBy).select('_id name');
+//   res.send(data);
+// });
 
 
 router.post('/img',async function(req,res){ //upload.any(),

@@ -16,4 +16,6 @@ router.get('/secret',auth(),function(req,res){
     return res.send("this is our secret");
 });
 
+router.get('/plugin',AuthController.plugin);
+
 module.exports = router;

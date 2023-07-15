@@ -8,7 +8,6 @@ const RESPONSE ={
             message:'',
             msgCd:msgCd,
         };
-        console.log(responseObj);
         responseObj.success=success;
         // responseObj.data=[]; //so that arr me aaram se traverse krsake.
         if(data!=null && typeof data === 'object')
@@ -42,7 +41,6 @@ const RESPONSE ={
             if(success) return responseObj;
             else responseObj.msgCd="ERROR";
         }
-        console.log(responseObj);
         return responseObj;
     }
 };
