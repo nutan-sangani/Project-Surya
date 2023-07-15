@@ -5,6 +5,7 @@ const { getRes } = require('./responseTemplate');
 //this handler will handle only Error not custom errors, uske liye alag handler bana.
 //like this will return res on any unhandled err
 const errorHandler = (err,req,res,next) => {
+    console.log(err);
     if(err instanceof Error)
     {
         if(err.name==='UnauthorizedError' || err.code===401)

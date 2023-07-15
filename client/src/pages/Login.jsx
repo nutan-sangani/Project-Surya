@@ -7,8 +7,12 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import login_img from "../assets/login_img.jpg";
 import logo_img from "../assets/logo_img2.png";
+import useStateContext from "../context/StateProvider";
 
 function Signup(props) {
+
+  const [state,dispatch] = useStateContext();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -86,7 +90,7 @@ function Signup(props) {
       .then((register_object) => {
         localStorage.setItem("token", `Bearer ${register_object.data.tokens}`);
         const tok = localStorage.getItem("token");
-        axios.defaults.headers.common["Authorization"] = tok;
+        // axios.defaults.headers.common["Authorization"] = tok;
         axios
           .get("/auth/secret", {})
           .then((data) => console.log(data))
@@ -102,7 +106,9 @@ function Signup(props) {
         <img src={login_img} className="login_img" />
       </div>
       <form className="signIn" onSubmit={submitHandle}>
-        <img src={logo_img} className="logo_img" />
+        <Link to='/'>
+          <img src={logo_img} className="logo_img" />
+        </Link>
         <div className="container">
           <div className="form">
             {props.signup && <h4>NAME</h4>}
