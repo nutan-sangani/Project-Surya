@@ -1,5 +1,7 @@
 .contain{
-    background-color: purple;
+    /* background-color: purple; */
+    background-color:rgb(6, 148, 51)  ;
+    /* rgb(6, 148, 51) */
     width: 100%;
     min-width: 319px;
 }

@@ -1,0 +1,33 @@
+.donorInfo--container{
+    font-size: 11px;
+    border: 1px solid black;
+    background-color: white;
+    border-radius: 6px;
+    padding: 2% 2%;
+    width: 96%;
+    margin: auto auto;
+}
+.donor__name{
+    display: grid;
+    grid-template-columns: 1fr 1fr ;
+}
+.donor__donated{
+    display: grid;
+    grid-template-columns:1fr 1fr ;
+}
+.donor__city{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.donor__city > p{
+    padding: 0 0;
+    margin: 0 0;
+}
+.donor__donated > p{
+    padding: 0 0;
+    margin: 0 0;
+}
+.donor__name > p{
+    padding: 0 0;
+    margin: 0 0;
+}

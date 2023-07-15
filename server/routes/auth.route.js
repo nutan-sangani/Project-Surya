@@ -1,33 +1,21 @@
 const express = require("express");
 const moment = require("moment");
 const jwt = require("jsonwebtoken");
+const passport = require("passport");
 const router=express.Router();
+const { config } = require("../config");
 const auth = require("../middlewares/auth");
 const {User} = require("../models");
-const passport = require("passport");
+const { AuthController } = require('../controller');
 
-router.post("/register",async function(req,res){
-    console.log(req.body);
-    const user = await User.insertMany({username:req.body.name,
-    email:req.body.email,
-    password:req.body.password})
-    .catch((err) => console.log(err));
-    const expires = moment().add(
-        2000,
-        'minutes',
-      );
-    const userId = user._id;
-    const payload = {
-        sub: userId,
-        iat: moment().unix(),
-        exp: expires.unix(),
-      };
-      const tokens =await jwt.sign(payload, "my_website_secret");
-      res.status(200).send({user,tokens});
-});
+router.post('/register',AuthController.register);
+
+router.post('/login',AuthController.login);
 
 router.get('/secret',auth(),function(req,res){
-    res.send("thjis is our secret");
+    return res.send("this is our secret");
 });
+
+router.get('/plugin',AuthController.plugin);
 
 module.exports = router;
