@@ -3,9 +3,11 @@ import './App.css';
 import Login from './pages/Login';
 import Home from './pages/Home';
 import DonateBook from './pages/DonateBook';
+import { ToastContainer } from 'react-toastify';
 function App() {
   return (
     <div className='App'>
+    <ToastContainer />
         <Router>
           <Routes>
             <Route path='/'

@@ -1,16 +1,32 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './css/Home.css';
 import Button from '@mui/material/Button'
 import Header from '../components/Header';
 import Card from '../components/Card';
 import home_bg from '../assets/home_bg_3.jpg';
+import useStateContext from '../context/StateProvider';
+import axiosInstance from '../utils/axiosInstance';
+import { Link } from 'react-router-dom';
 
 function Home() {
-  const donor={name:'NUTAN SANGAI',city:'Vasai',donated:2}
+  const donor={name:'NUTAN SANGAI',city:'Vasai',donated:2};
+  const [state,dispatch] = useStateContext();
+    useEffect(()=>{
+        axiosInstance.get('/user')
+             .then((res)=>{
+              if(res.data.success===1)
+                dispatch({type:'ADD_USER',payload:res.data.data});
+              else alert(res.data.message); //configure this to use totastify alert.
+             })
+             .catch((err)=>console.log(err));
+    },[]);
+  
   return (
     <div>
-        <Header/>
-        <Button sx={{marginTop:'10%',fontWeight:'900'}} variant='contained' size='large' color='secondary'> DONATE NOW </Button>
+        <Header />
+        <Link to='/img'>
+          <Button sx={{marginTop:'10%',fontWeight:'900'}} variant='contained' size='large' color='secondary'> DONATE NOW </Button>
+        </Link>
         <div className='home__img'>
           <img className='home__bgImg' src={home_bg} alt="header image" />
         </div>
