@@ -4,12 +4,14 @@ import Button from '@mui/material/Button';
 import { Link, useNavigate } from 'react-router-dom';
 import './css/Header.css';
 import site_logo from '../assets/logo_img.png';
+import useStateContext from '../context/StateProvider';
 
 function Header() {
+    const [state,dispatch] = useStateContext();
     const navigate = useNavigate();
     function login(){
         navigate('/login');
-    }
+    };
 
   return (
     <div className='contain'>
@@ -25,7 +27,7 @@ function Header() {
             </div>
             <div className="header__loginBtn">
                 <Button variant='contained' size='small' color='secondary' onClick={login}
-                    sx={{height:"28px",fontWeight:"900" ,color:"purple",backgroundColor:"white"}}>LOGIN </Button>
+                    sx={{height:"28px",fontWeight:"900" ,color:"purple",backgroundColor:"white"}}>{state.user.username ?'LOGOUT' : 'LOGIN'} </Button>
             </div>
             <div className="header__profileBtn">
                 <Link to='/profile'>

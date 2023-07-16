@@ -4,6 +4,7 @@ const router=express.Router();
 const auth = require("../middlewares/auth");
 const sharp=require('sharp');
 const { Book } = require('../models');
+const { BookController } = require('../controller');
 
 // router.get('/',async function(req,res){
 //   console.log(req.query.sortBy); //-name 
@@ -11,23 +12,15 @@ const { Book } = require('../models');
 //   res.send(data);
 // });
 
+router.post('/img',auth(),BookController.check_img);
 
-router.post('/img',async function(req,res){ //upload.any(),
-    console.log(req.files);
-    const bin=req.files.image.data;
-    let buffer;
-    await sharp(req.files.image.data).jpeg({quality:10}).toBuffer() //.resize({width:360,height:360})
-    .then(async (data)=>{
-      buffer=data;
-    })
-    .catch((err)=>console.log(err));
-    const book1=new Book({name:req.files.image.name,img:buffer});
-    await book1.save();
-    console.log(book1.img.length);
-    res.send(book1.img); //yup prints the img after taking each string, converting to uINt8bit and than turned to imgurl
-  });
+router.post('/',auth(),BookController.add_book);
 
-  module.exports = router;
+// router.post('/img',async function(req,res){ 
+    
+//   });
+
+module.exports = router;
 
   //on /
   //get route to get all books (with page limit of 16), implement pagination plugin.
