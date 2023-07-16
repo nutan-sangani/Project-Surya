@@ -1,7 +1,9 @@
 const { Book } = require('../models');
 const sharp = require('sharp');
 const { customError } = require('../utils');
-const { BOOKSERVICE } = require('../services');
+const { BOOKSERVICE, USERSERVICE } = require('../services');
+const httpStatus = require('http-status');
+const { getRes } = require('../utils/responseTemplate');
 
 const compress_img = async (image_data) => {
     let buffer;
@@ -19,9 +21,6 @@ const CONTROLLER = {
             const binary_data=req.files.image.data;
             let buffer;
             buffer = await compress_img(binary_data);
-            // const book1=new Book({name:req.files.image.name,img:buffer});
-            // await book1.save();
-            // console.log(book1.img.length);
             res.send(buffer); //yup prints the img after taking each string, converting to uINt8bit and than turned to imgurl
         }
         catch(error){
@@ -39,8 +38,9 @@ const CONTROLLER = {
             req.body.donor = req.user._id;
             req.body.donatedAt = new Date();
             const new_book = await BOOKSERVICE.addBook(req.body); //passing in the image object.
-            console.log(new_book);
-            res.send(new_book);
+            const user = await USERSERVICE.addBookId(req.user._id,new_book._id,'donated');
+            //also need to add this book, in user model's donated field.
+            res.status(httpStatus.OK).send(getRes(1,user,null,'Book succesfully added'));
         }
         catch(error){
             console.log(error);

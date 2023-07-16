@@ -16,10 +16,32 @@ export const reducer = (state,action) =>{
     switch(action.type)
     {
         case 'ADD_USER' :
-                return {
-                    ...state,
-                    user:action.payload,
-                };
+            const user = {
+                username:action.payload.username,
+                donated : action.payload.donated.length,
+                requests : action.payload.requests.length,
+                email : action.payload.email,
+                mobile : action.payload.mobile,
+            };
+            state.user=user;
+            if(action.payload.requests.length !== 0)
+                state.requests = action.payload.requests;
+            if(action.payload.donated.length !==0)
+                state.donated = action.payload.donated;
+            //have done such elaborate method, since the response from backend is mixed, we could have change the structure in the backend, but that would
+            //change the response structure, also i dont know how to take selective things from an object in frontend. (thus ellaborate).
+            return {
+                ...state,
+            };
+        case 'ADD_BOOK' :
+            const donated = action.payload.donated.length;
+            state.user.donated = donated;
+            state.donated.push(action.payload.donated);
+            console.log(state);
+            return {
+                ...state,
+            };
+
         default :
             alert("default");
     }
