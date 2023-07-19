@@ -18,7 +18,7 @@ function Card(props) {
         </div>
         <DonorInfo donor_name={props.donor.name} 
           donor_donated={props.donor.donated}
-          donor_city={props.donor.city} />
+          donor_institute={props.donor.institute} />
         <div className="card__city">
           <p>{props.book_city}</p>
         </div>

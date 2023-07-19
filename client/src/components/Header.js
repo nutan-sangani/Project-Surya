@@ -26,8 +26,8 @@ function Header() {
                 <input  placeholder='  Search'/>
             </div>
             <div className="header__loginBtn">
-                <Button variant='contained' size='small' color='secondary' onClick={login}
-                    sx={{height:"28px",fontWeight:"900" ,color:"purple",backgroundColor:"white"}}>{state.user.username ?'LOGOUT' : 'LOGIN'} </Button>
+                <Button variant='contained' size='small' color='common'  onClick={login}
+                    sx={{height:"28px",fontWeight:"900",backgroundColor:'white',color:'green'}}>{state.user.username ?'LOGOUT' : 'LOGIN'} </Button>
             </div>
             <div className="header__profileBtn">
                 <Link to='/profile'>

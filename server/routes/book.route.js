@@ -14,7 +14,11 @@ const { BookController } = require('../controller');
 
 router.post('/img',auth(),BookController.check_img);
 
-router.post('/',auth(),BookController.add_book);
+
+
+router.route('/')
+      .get(BookController.getBooks)
+      .post(auth(),BookController.add_book);
 
 // router.post('/img',async function(req,res){ 
     

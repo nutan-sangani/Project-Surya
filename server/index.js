@@ -8,6 +8,8 @@ const cors = require("cors");
 const passport = require("passport");
 const moment = require("moment");
 const jwtStrategy = require("./config/passport");
+const cloudinary = require('cloudinary').v2;
+
 const { config } = require("./config");
 const User = require("./models/user.model");
 const routes = require("./routes");

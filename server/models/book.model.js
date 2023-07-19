@@ -21,13 +21,13 @@ const bookSchema = new mongoose.Schema({
         required:true,
     },
     img:{
-        type:Buffer,
+        type:String,
         required:true,
     },
     donor:{
         type: mongoose.Types.ObjectId,
         required:true,
-        ref:'users',
+        ref:'User',
     },
     isDeleted:{
         type:Boolean,

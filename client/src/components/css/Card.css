@@ -3,6 +3,7 @@ body{
 }
 .card--container{
     width: max-content;
+    width: 28rem;
     margin-bottom: 10px;
     /* background-color: rgb(226, 215, 215); */
     background-color: white;
@@ -30,10 +31,12 @@ body{
     font-size: 0.83rem;
 }
 .card__img{
-    height: 230px;
+    padding-bottom: 8px;
 }
 .card__img > img{
-    width: 70%;
+    width: 90%;
+    object-fit: contain;
+    height: 200px;
 }
 .card__city{
     font-size: 0.83rem;
