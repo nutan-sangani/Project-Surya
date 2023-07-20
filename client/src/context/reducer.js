@@ -1,58 +1,63 @@
 import react from 'react';
-import axios from 'axios';
 export const initial_state = {
-    user:null,
+    user:{
+        username:'',
+        donated:0,
+        requests:0,
+        email:'',
+        mobile:'',
+    },
     requests : [],
     donated : [],
+    searchResults :[],
+    curr_request:{},
 };
-
-const axiosInstance = axios.create();
-                    axiosInstance.interceptors.response.use(
-                        (response) => response,
-                        (error) => {
-                            if(error.response.data.success===undefined) //if this is undefined, than server sent an error
-                            {
-                                return Promise.reject(error);
-                            }
-                            //else the server sent not an error,not response message (ie if has a message)
-                            return Promise.resolve(error.response); //since we have done exceptional error handling, we display every message.
-                        }
-                      );
 
 export const reducer = (state,action) =>{
     switch(action.type)
     {
-        case 'GET_USER' :
-            {
-                let user;
-                const token = localStorage.getItem('token');
-                if(token)
-                {
-                    axiosInstance.defaults.headers.common["Authorization"] = token;
-                    axiosInstance.get('/user')
-                         .then((res) => {
-                            if(res.data.success===1)
-                            {
-                                user=res.data.data;
-                                console.log(user);
-                            }
-                            else
-                            {
-                                user=null;
-                                console.log(res.data.message);  
-                            } 
-                         })
-                         .catch((err) => 
-                         {
-                            console.log(err);
-                         });
-                }
-                else user=null;
-                state.user=user;
-                return {
-                    ...state
-                }
+        case 'ADD_USER' :
+            const user = {
+                username:action.payload.username,
+                donated : action.payload.donated.length,
+                requests : action.payload.requests.length,
+                email : action.payload.email,
+                mobile : action.payload.mobile,
             };
+            state.user=user;
+            if(action.payload.requests.length !== 0)
+                state.requests = action.payload.requests;
+            if(action.payload.donated.length !==0)
+                state.donated = action.payload.donated;
+            //have done such elaborate method, since the response from backend is mixed, we could have change the structure in the backend, but that would
+            //change the response structure, also i dont know how to take selective things from an object in frontend. (thus ellaborate).
+            return {
+                ...state,
+            };
+        case 'ADD_BOOK' :
+            const donated = action.payload.donated.length;
+            state.user.donated = donated;
+            state.donated.push(action.payload.donated);
+            console.log(state);
+            return {
+                ...state,
+            };
+
+        case 'ADD_USER_SEARCH_RESULTS' :
+            const results = action.payload;
+            // console.log(action.payload);
+            state.searchResults = results;
+            return {
+                ...state,
+            };
+        case 'ADD_USER_REQUEST' :
+            const request = action.payload;
+            state.curr_request = request;
+            console.log(request);
+            return {
+                ...state,
+            };
+
         default :
             alert("default");
     }

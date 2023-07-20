@@ -3,11 +3,11 @@ body{
 }
 .card--container{
     width: max-content;
-    font-size: 15px;
+    width: 28rem;
     margin-bottom: 10px;
     /* background-color: rgb(226, 215, 215); */
     background-color: white;
-    max-width: 300px;
+    max-width: 18.75rem;
     border: 1px solid grey;
     border-radius: 6px;
     margin-top: 16px;
@@ -19,7 +19,7 @@ body{
 .card__title > h4{
     padding-top: 2%;
     margin:0 0;
-    
+    font-size: 0.97rem;
 }
 .card__classInfo{
     display: flex;
@@ -28,19 +28,21 @@ body{
 }
 .card_flex_item{
     width: 100%;
-    font-size: 13px;
+    font-size: 0.83rem;
 }
 .card__img{
-    height: 230px;
+    padding-bottom: 8px;
 }
 .card__img > img{
-    width: 70%;
+    width: 90%;
+    object-fit: contain;
+    height: 200px;
 }
 .card__city{
-
+    font-size: 0.83rem;
 }
 .card__btn{
-    font-size: 14px;
+    font-size: 0.8rem;
     padding: 0.5em 0.9em;
     margin-bottom: 3%;
     width: 95%;

@@ -12,6 +12,10 @@ const requestSchema = new mongoose.Schema({
         required:true,
         ref: 'users',
     },
+    message : {
+        type: String,
+        required:false,
+    },
     sender: {
         type: mongoose.Types.ObjectId,
         required : true,

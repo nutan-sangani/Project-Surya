@@ -8,6 +8,8 @@ const cors = require("cors");
 const passport = require("passport");
 const moment = require("moment");
 const jwtStrategy = require("./config/passport");
+const cloudinary = require('cloudinary').v2;
+
 const { config } = require("./config");
 const User = require("./models/user.model");
 const routes = require("./routes");
@@ -55,3 +57,4 @@ app.listen(config.port,function(err){
 
 //the most important one is, ki index me middlewares jis order me hote h, ussi order me request flows through them, if koi middleware pehle
 // hi uspe response nhi de deta toh. (yani app.use() ka order matters).
+//ngrok http --host-header=rewrite 3000

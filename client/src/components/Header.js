@@ -1,15 +1,56 @@
-import React from 'react';
-import {FaBars,FaRegUserCircle} from 'react-icons/fa';
+import React, { useEffect, useState } from 'react';
+import {FaBars, FaRegUserCircle} from 'react-icons/fa';
+import {  FaXmark } from "react-icons/fa6";
 import Button from '@mui/material/Button';
 import { Link, useNavigate } from 'react-router-dom';
 import './css/Header.css';
 import site_logo from '../assets/logo_img.png';
+import useStateContext from '../context/StateProvider';
+import FoundItem from './FoundItem';
+import axiosInstance from '../utils/axiosInstance'
 
 function Header() {
+
+    const [search,setSearch] = useState("");
+    const [searchResults,setResults] = useState([]);
+    const [searchSection,setSearchSection] = useState(false);
+    const [style,setStyle] = useState({});
+    const [state,dispatch] = useStateContext();
+
+    const controller = new AbortController();
+
+    useEffect(()=>{
+        const query = 'text='+ search;
+        axiosInstance.get('/book/search'+`?${query}`,{signal:controller.signal})
+                     .then((res) => {
+                        if(res.data.success === 1)
+                        {
+                            console.log(res.data.data.results);
+                            setResults(res.data.data.results);
+                        }})
+                     .catch((err)=>console.log(err));
+
+        return () => {controller.abort();
+        console.log('aborted');}
+    },[search]);
+
+    function handleSearch(event) {
+        setSearch(event.target.value);
+        setSearchSection(true);
+        setStyle({marginTop: 'auto',
+            paddingTop: '10px'})
+    };
+
+    function closeSearch(){
+        setStyle({});
+        setSearch("");
+        setSearchSection(false);
+    }
+
     const navigate = useNavigate();
     function login(){
         navigate('/login');
-    }
+    };
 
   return (
     <div className='contain'>
@@ -18,14 +59,22 @@ function Header() {
                 <FaBars size={'24px'} color='white'/>
             </div>
             <div className="header__logo">
-                <img  src={site_logo} alt="website logo" />
+                <Link to='/' className='header__logo'>
+                    <img  src={site_logo} alt="website logo" />
+                </Link>
             </div>
-            <div className="header__searchBar">
-                <input  placeholder='  Search'/>
+            <div style={style} className="header__searchBar">
+                <div className='header__cross'>
+                    <input value={search} onChange={handleSearch} placeholder='  Search'/>
+                    <FaXmark onClick={closeSearch}/>
+                </div>
+                
+                {searchSection && <FoundItem result ={searchResults} />}
             </div>
+            
             <div className="header__loginBtn">
-                <Button variant='contained' size='small' color='secondary' onClick={login}
-                    sx={{height:"28px",fontWeight:"900" ,color:"purple",backgroundColor:"white"}}>LOGIN </Button>
+                <Button variant='contained' size='small' color='common'  onClick={login}
+                    sx={{height:"28px",fontWeight:"900",backgroundColor:'white',color:'green'}}>{state.user.username ?'LOGOUT' : 'LOGIN'} </Button>
             </div>
             <div className="header__profileBtn">
                 <Link to='/profile'>

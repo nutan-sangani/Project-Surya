@@ -19,6 +19,21 @@ const SERVICES = {
     getUserById : async(userId) =>{
         return await User.findOne(userId);
     },
+
+    addBookId : async(userId,bookId,field) => {
+        if(field==='donated')
+        {
+            const user = await User.findOneAndUpdate({_id:userId},{$push:{donated:bookId}},{ upsert: true, new: true });
+            //upsert and new are true, which will help to push to empty arrays (ie if they are empty).
+            return user;
+        }
+        else if(field==='requests')
+        {
+            const user = await User.findOneAndUpdate({_id:userId},{$push:{requests:bookId}},{ upsert: true, new: true });
+            return user;
+        }
+        else return null;
+    }
 };
 
 module.exports = SERVICES;
