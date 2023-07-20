@@ -1,9 +1,8 @@
 const mongoose = require("mongoose");
 const {Book} = require("../models");
 const { customError } = require("../utils");
-const { BOOKSERVICE } = require(".");
 
-const SERVICE = {
+const SERVICES = {
     addBook : async(formData) => {
         try{
             console.log(formData);
@@ -15,10 +14,10 @@ const SERVICE = {
         }
     },
 
-    getPaginatedBooks : async(query) => {
-        const books = await Book.paginate({},query);
-        return books; //assuming ki frontend me aa hi gye honge.
-    }
+    getPaginatedBooks : async(options,filter={}) => {
+        const books = await Book.paginate(filter,options);
+        return books;
+    },
 };
 
-module.exports = SERVICE;
+module.exports = SERVICES;

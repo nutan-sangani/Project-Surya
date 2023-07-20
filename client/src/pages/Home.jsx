@@ -41,14 +41,13 @@ function Home() {
   return (
     <div>
         <Header />
-        <Link to='/img'>
+        <Link to='/DonateBook'>
           <Button sx={{marginTop:'10%',fontWeight:'900'}} variant='contained' size='large' color='success'> DONATE NOW </Button>
         </Link>
         <div className='home__img'>
-          <img className='home__bgImg' src={home_bg} alt="header image" />
+          <img className='home__bgImg' src={home_bg} alt=''/>
         </div>
       <div className='home--container'>
-        
         {userFeed.map((bookData) => {
           return <Card book_title={bookData.title}
           book_class={bookData.course}
@@ -58,17 +57,11 @@ function Home() {
           donor={bookData.donor}
          />
         })}
-        
-        {/* <Card book_title="12th Chemistry TextBook"
-          book_class="12th science"
-          book_board="NCERT"
-          book_img="https://m.media-amazon.com/images/S/aplus-media/sota/9c7ddf71-eccb-4bdb-a062-6e9d7990436e.__CR0,0,300,300_PT0_SX300_V1___.jpg"
-          book_city="Vasai"
-          donor={donor}
-         /> */}
       </div>
     </div>
   )
 };
 
 export default Home;
+//making a seperate requests page, in future, will add a chat option to request page. 
+//thought of making a floating request screen, but i think it would be too complicated.

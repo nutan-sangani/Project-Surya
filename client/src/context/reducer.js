@@ -1,5 +1,4 @@
 import react from 'react';
-import axios from 'axios';
 export const initial_state = {
     user:{
         username:'',
@@ -10,6 +9,8 @@ export const initial_state = {
     },
     requests : [],
     donated : [],
+    searchResults :[],
+    curr_request:{},
 };
 
 export const reducer = (state,action) =>{
@@ -38,6 +39,21 @@ export const reducer = (state,action) =>{
             state.user.donated = donated;
             state.donated.push(action.payload.donated);
             console.log(state);
+            return {
+                ...state,
+            };
+
+        case 'ADD_USER_SEARCH_RESULTS' :
+            const results = action.payload;
+            // console.log(action.payload);
+            state.searchResults = results;
+            return {
+                ...state,
+            };
+        case 'ADD_USER_REQUEST' :
+            const request = action.payload;
+            state.curr_request = request;
+            console.log(request);
             return {
                 ...state,
             };
