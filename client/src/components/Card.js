@@ -1,8 +1,19 @@
 import React from 'react';
 import './css/Card.css';
 import DonorInfo from './DonorInfo.jsx';
+import useStateContext from '../context/StateProvider';
+import { useNavigate } from 'react-router-dom';
 
 function Card(props) {
+
+  const[state,dispatch] = useStateContext();
+  const navigate = useNavigate();
+
+  function request_now() {
+    dispatch({type:'ADD_USER_REQUEST',payload:props});
+    navigate('/request');
+  }
+
   return (
     <div> 
       <div className='card--container'>
@@ -14,15 +25,15 @@ function Card(props) {
           <p className='card_flex_item'>Board : {props.book_board}</p> 
         </div>
         <div className='card__img'>
-          <img src={props.book_img} />
+          <img src={props.book_img} alt='' />
         </div>
         <DonorInfo donor_name={props.donor.name} 
           donor_donated={props.donor.donated}
-          donor_city={props.donor.city} />
+          donor_institute={props.donor.institute} />
         <div className="card__city">
           <p>{props.book_city}</p>
         </div>
-        <button className='card__btn' type='submit'>
+        <button onClick={() => request_now()} className='card__btn' type='submit'>
           Request Now
         </button>
       </div>

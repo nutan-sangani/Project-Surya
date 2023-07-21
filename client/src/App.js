@@ -4,6 +4,12 @@ import Login from './pages/Login';
 import Home from './pages/Home';
 import DonateBook from './pages/DonateBook';
 import { ToastContainer } from 'react-toastify';
+
+import SearchResults from './pages/SearchResults';
+import Requests from './pages/Requests';
+
+=======
+
 function App() {
   return (
     <div className='App'>
@@ -19,8 +25,14 @@ function App() {
             <Route path='/register'
               element={<Login button_text="CREATE MY ACCOUNT" signup="1"/>}
               />
-            <Route path='/img' 
+            <Route path='/DonateBook' 
               element={<DonateBook/>}
+            />
+            <Route path='/searchResults'
+              element = {<SearchResults/>}
+            />
+            <Route path='/request'
+              element = {<Requests/>}
             />
           </Routes>
         </Router>

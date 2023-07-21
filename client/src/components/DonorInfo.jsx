@@ -13,8 +13,8 @@ function DonorInfo(props) {
             <p> {props.donor_donated} Books till now</p>
         </div>
         <div className='donor__city'>
-            <p>Donor City : </p>
-            <p> {props.donor_city}</p>
+            <p>Donor Institute : </p>
+            <p> {props.donor_institute}</p>
         </div>
     </div>
   )

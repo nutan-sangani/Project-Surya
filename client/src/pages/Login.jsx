@@ -5,9 +5,11 @@ import { useNavigate } from "react-router-dom";
 import "./css/Login.css";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import login_img from "../assets/login_img.jpg";
-import logo_img from "../assets/logo_img2.png";
+import login_img from "../assets/login_img3.png";
+import logo_img from "../assets/logo_img4.png";
 import useStateContext from "../context/StateProvider";
+import axiosInstance from "../utils/axiosInstance";
+import { toast_error, toast_success } from "../utils/toastify";
 
 function Signup(props) {
 
@@ -17,6 +19,7 @@ function Signup(props) {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [mobile, setMobile] = useState("");
+  const [institute,setInstitute] = useState("");
   //error holds ' ' to show  no error or 'a' to show error
   const [emailError, setEmailError] = useState("");
   const [passError, setPassError] = useState("");
@@ -30,7 +33,8 @@ function Signup(props) {
   function handle(event, index) {
     if (index === 1) {
       setName(event.target.value);
-    } else if (index === 2) {
+    } 
+    else if (index === 2) {
       setEmail(event.target.value);
       let entered_value = event.target.value;
       let regMail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,10})+$/;
@@ -41,7 +45,8 @@ function Signup(props) {
         setEmailError("a");
         setEmailHT(<>Please Enter a valid Email</>);
       }
-    } else if (index === 3) {
+    } 
+    else if (index === 3) {
       setPassword(event.target.value);
       let entered_value = event.target.value;
       let regPass = /^(?=.*[a-z|A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,25}$/;
@@ -60,7 +65,8 @@ function Signup(props) {
           </>
         );
       }
-    } else if (index === 4) {
+    } 
+    else if (index === 4) {
       setMobile(event.target.value);
       let entered_value = event.target.value;
       let regMob = /^\d{10}$/;
@@ -72,6 +78,9 @@ function Signup(props) {
         setMobileHT(<>Should Contain 10 digits only</>);
       }
     }
+    else if(index === 5){
+      setInstitute(event.target.value);
+    }
   };
 
   function redirectToSignUp(){
@@ -80,24 +89,42 @@ function Signup(props) {
 
   function submitHandle(event) {
     event.preventDefault();
-    axios
-      .post("/auth/register", {
-        name: name,
-        password: password,
-        email: email,
-        mobile: mobile,
-      })
-      .then((register_object) => {
-        localStorage.setItem("token", `Bearer ${register_object.data.tokens}`);
-        const tok = localStorage.getItem("token");
-        // axios.defaults.headers.common["Authorization"] = tok;
-        axios
-          .get("/auth/secret", {})
-          .then((data) => console.log(data))
-          .catch((err) => console.log(err));
-        alert("done");
-      })
-      .catch((err) => alert(err));
+    let body = {};
+    body.password = password;
+    body.email = email;
+    if(props.signup) //means register
+    {
+      body.username = name;
+      body.mobile = mobile;
+      body.institute = institute;
+      axiosInstance.post('/auth/register',body)
+                   .then((res)=>{
+                    if(res.data.success === 1)
+                    {
+                      const token = res.data.data.token;
+                      localStorage.setItem('token',token);
+                      toast_success('Account Created Successfully');
+                      navigate('/');
+                    }
+                    else toast_error(res.data.message);
+                   })
+                   .catch((err) => console.log(err));
+    }
+    else{
+      axiosInstance.post('/auth/login',body)
+                 .then((res) => {
+                  if(res.data.success === 1)
+                  {
+                    const token = `Bearer ${res.data.data.token}`;
+                    localStorage.setItem('token',token);
+                    toast_success('Successfully Logged in to Account');
+                    navigate('/');
+                  }
+                  else toast_error(res.data.message);
+                   })
+                   .catch((err) => console.log(err));
+    }
+    
   }
 
   return (
@@ -115,7 +142,7 @@ function Signup(props) {
             {props.signup && (
               <TextField
                 variant="outlined"
-                color="secondary"
+                color="success"
                 size="small"
                 value={name}
                 sx={{ gridColumnStart: "2" }}
@@ -127,11 +154,27 @@ function Signup(props) {
                 name="name"
               />
             )}
+            {props.signup && <h4>INSTITUTE</h4>}
+            {props.signup && (
+              <TextField
+                variant="outlined"
+                color="success"
+                size="small"
+                value={institute}
+                sx={{ gridColumnStart: "2" }}
+                onChange={(e) => {
+                  handle(e, 5);
+                }}
+                label="Institute"
+                placeholder="eg : Ludhani Vidya Mandir"
+                name="institute"
+              />
+            )}
             <h4>EMAIL</h4>
             <TextField
               variant="outlined"
               required="true"
-              color="secondary"
+              color="success"
               size="small"
               error={emailError}
               value={email}
@@ -148,7 +191,7 @@ function Signup(props) {
             <TextField
               variant="outlined"
               required="true"
-              color="secondary"
+              color="success"
               type="password"
               size="small"
               error={passError}
@@ -167,7 +210,7 @@ function Signup(props) {
               <TextField
                 variant="outlined"
                 required="true"
-                color="secondary"
+                color="success"
                 size="small"
                 error={mobileError}
                 value={mobile}
@@ -187,7 +230,7 @@ function Signup(props) {
           type="submit"
           variant="contained"
           size="large"
-          color="secondary"
+          color="success"
           sx={{ width: "100%", marginTop: "3rem" }}
         >
           {props.button_text}
@@ -196,7 +239,7 @@ function Signup(props) {
           <Button
             variant="contained"
             size="large"
-            color="secondary"
+            color="success"
             onClick={redirectToSignUp}
             sx={{ width: "100%", marginTop: "3rem" }}
           >

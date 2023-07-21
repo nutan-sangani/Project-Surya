@@ -6,19 +6,14 @@ const sharp=require('sharp');
 const { Book } = require('../models');
 const { BookController } = require('../controller');
 
-// router.get('/',async function(req,res){
-//   console.log(req.query.sortBy); //-name 
-//   const data=await Book.find({}).sort(req.query.sortBy).select('_id name');
-//   res.send(data);
-// });
+router.route('/')
+      .get(BookController.getBooks)
+      .post(auth(),BookController.add_book);
 
 router.post('/img',auth(),BookController.check_img);
 
-router.post('/',auth(),BookController.add_book);
+router.get('/search',BookController.searchBooks);
 
-// router.post('/img',async function(req,res){ 
-    
-//   });
 
 module.exports = router;
 
