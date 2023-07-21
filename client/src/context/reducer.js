@@ -43,6 +43,7 @@ export const reducer = (state,action) =>{
                 ...state,
             };
 
+
         case 'ADD_USER_SEARCH_RESULTS' :
             const results = action.payload;
             // console.log(action.payload);
@@ -58,6 +59,7 @@ export const reducer = (state,action) =>{
                 ...state,
             };
 
+        
         default :
             alert("default");
     }

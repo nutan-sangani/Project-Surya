@@ -1,4 +1,8 @@
+
 import React, { useEffect, useState } from 'react'
+
+import React, { useEffect } from 'react'
+
 import './css/Home.css';
 import Button from '@mui/material/Button'
 import Header from '../components/Header';
@@ -7,18 +11,19 @@ import home_bg from '../assets/home_bg_3.jpg';
 import useStateContext from '../context/StateProvider';
 import axiosInstance from '../utils/axiosInstance';
 import { Link } from 'react-router-dom';
+
 import { toast_error } from '../utils/toastify';
 
 function Home() {
   const donor={name:'NUTAN SANGAI',city:'Vasai',donated:2};
   const [userFeed,setUserFeed] = useState([]);
-
   const [state,dispatch] = useStateContext();
     useEffect(()=>{
         axiosInstance.get('/user')
              .then((res)=>{
               if(res.data.success===1)
                 dispatch({type:'ADD_USER',payload:res.data.data});
+
               else toast_error(res.data.message) //configure this to use totastify alert.
              })
              .catch((err)=>console.log(err));
@@ -36,11 +41,13 @@ function Home() {
                       setUserFeed(results);
                      })
                      .catch((err) => console.log(err));
+
     },[]);
   
   return (
     <div>
         <Header />
+
         <Link to='/DonateBook'>
           <Button sx={{marginTop:'10%',fontWeight:'900'}} variant='contained' size='large' color='success'> DONATE NOW </Button>
         </Link>
