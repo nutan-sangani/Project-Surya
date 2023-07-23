@@ -93,6 +93,11 @@ const CONTROLLER = {
             console.error(err);
             next(err);
         }
+    },
+
+    getUserBooks : async (req,res,next) => {
+        const userId = req.user._id;
+        
     }
 };
 

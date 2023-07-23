@@ -8,9 +8,11 @@ import './css/Requests.css';
 import { useState } from 'react';
 import axiosInstance from '../utils/axiosInstance';
 import  {toast_success, toast_error } from '../utils/toastify';
+import { useNavigate } from 'react-router-dom';
 
 function Requests(props) {
     const [state,dispatch] = useStateContext();
+    
     const [msg,setMsg] = useState('');
     const [institute,setInsti] = useState('');
     const [contact_info,setContact] = useState('');
@@ -19,12 +21,15 @@ function Requests(props) {
     const [src,setSrc] = useState('');
     const [img,setImg] = useState(null);
 
+    const navigate = useNavigate();
+
     function handleSend(event)
     {
         event.preventDefault();
         if(img===null)
             toast_error('Kindly upload a valid image of proof of size below 1MB');
         else{
+            toast_success('Wait for 2 sec the request is being sent...');
             const formData = new FormData();
             formData.append('image',img);
             formData.append('message',msg);
@@ -39,6 +44,7 @@ function Requests(props) {
                             if(res.data.success===1)
                             {
                                 toast_success('Book Requested Successfully');
+                                navigate('/');
                             }
                             else toast_error(res.data.message);
                         })
