@@ -8,7 +8,6 @@ import { ToastContainer } from 'react-toastify';
 import SearchResults from './pages/SearchResults';
 import Requests from './pages/Requests';
 
-=======
 
 function App() {
   return (

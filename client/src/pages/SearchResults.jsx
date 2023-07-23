@@ -6,12 +6,15 @@ import './css/SearchResults.css';
 
 function SearchResults() {
   const [state,dispatch] = useStateContext();
-  const donor={name:'NUTAN SANGAI',city:'Vasai',donated:2};
+  // const donor={name:'NUTAN SANGAI',city:'Vasai',donated:2};
   return (
     <div>
         <Header/>
         <div className='home--container no--img'>
           {state.searchResults.map((bookData) => {
+            const  donor = {name:bookData.donor.username,
+            institute:bookData.donor.institute,
+            donated:bookData.donor.donated.length};
             return <Card book_title={bookData.title}
             book_class={bookData.course}
             book_board={bookData.board}

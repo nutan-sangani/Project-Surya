@@ -95,6 +95,7 @@ function DonateBook() {
             toast_error("Insert a valid image to submit the form");
         }
         else{
+            toast_success('Wait for 2 sec the request is being sent...');
             const formData = new FormData();
             formData.append('image',img);
             formData.append('title',title);

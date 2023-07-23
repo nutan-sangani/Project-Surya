@@ -1,8 +1,5 @@
 
 import React, { useEffect, useState } from 'react'
-
-import React, { useEffect } from 'react'
-
 import './css/Home.css';
 import Button from '@mui/material/Button'
 import Header from '../components/Header';

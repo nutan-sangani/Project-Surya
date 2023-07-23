@@ -48,10 +48,6 @@ function Header() {
         setSearchSection(false);
     }
 
-
-function Header() {
-    const [state,dispatch] = useStateContext();
-
     const navigate = useNavigate();
     function login(){
         navigate('/login');
