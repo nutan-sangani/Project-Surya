@@ -1,8 +1,5 @@
 
 import React, { useEffect, useState } from 'react'
-
-import React, { useEffect } from 'react'
-
 import './css/Home.css';
 import Button from '@mui/material/Button'
 import Header from '../components/Header';
@@ -15,7 +12,7 @@ import { Link } from 'react-router-dom';
 import { toast_error } from '../utils/toastify';
 
 function Home() {
-  const donor={name:'NUTAN SANGAI',city:'Vasai',donated:2};
+  // const donor={name:'NUTAN SANGAI',city:'Vasai',donated:2};
   const [userFeed,setUserFeed] = useState([]);
   const [state,dispatch] = useStateContext();
     useEffect(()=>{
@@ -36,6 +33,8 @@ function Home() {
                         donor.name=result.donor.username;
                         donor.institute=result.donor.institute;
                         donor.donated = result.donor.donated.length;
+                        donor._id = result.donor._id;
+                        console.log(donor);
                         result.donor = donor;
                       });
                       setUserFeed(results);
@@ -58,6 +57,7 @@ function Home() {
         {userFeed.map((bookData) => {
           return <Card book_title={bookData.title}
           book_class={bookData.course}
+          book_id={bookData._id}
           book_board={bookData.board}
           book_img={bookData.img}
           book_city={bookData.city}

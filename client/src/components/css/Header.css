@@ -3,7 +3,7 @@
   background-color: rgb(6, 148, 51);
   /* rgb(6, 148, 51) */
   width: 100%;
-  min-width: 319px;
+  min-width: 281px;
 }
 
 .header {
@@ -22,6 +22,7 @@
   width: 38%;
   max-width: 6rem;
   min-width: 63px;
+  padding-left: 0.5rem;
 }
 .header__logo > img {
   width: 100%;

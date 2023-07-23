@@ -1,0 +1,41 @@
+.request--info{
+    background-color: white;
+    width: max-content;
+    width: 28rem;
+    max-width: 18.75rem;
+    padding:1rem 1rem ;
+    margin-top: 1rem ;
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+    height: max-content;
+    border: 1px solid grey;
+}
+.limitWidth{
+    max-width: 54rem;
+    margin: auto auto;
+}
+.proof--img{
+    width: 80%;
+    margin-top: 0.7rem;
+    margin-bottom: 1rem;
+}
+.button{
+    background-color:rgb(19, 144, 19);
+    color:white;
+    font-weight:900;
+    border:none;
+    cursor:pointer;
+}
+li{
+    text-align: start;
+}
+.warning{
+    background-color: rgb(230, 188, 24);
+    border-radius: 0.5rem;
+    color: red;
+    font-weight: 600;
+    padding: 0.4rem 0.4rem;
+    margin: 1rem auto;
+    width: 80%;
+}

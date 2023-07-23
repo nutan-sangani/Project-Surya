@@ -46,7 +46,7 @@ export const reducer = (state,action) =>{
 
         case 'ADD_USER_SEARCH_RESULTS' :
             const results = action.payload;
-            // console.log(action.payload);
+            console.log(action.payload);
             state.searchResults = results;
             return {
                 ...state,
