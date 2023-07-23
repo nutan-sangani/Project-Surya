@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import './css/Header.css';
 import site_logo from '../assets/logo_img.png';
 import useStateContext from '../context/StateProvider';
+
 import FoundItem from './FoundItem';
 import axiosInstance from '../utils/axiosInstance'
 
@@ -47,6 +48,10 @@ function Header() {
         setSearchSection(false);
     }
 
+
+function Header() {
+    const [state,dispatch] = useStateContext();
+
     const navigate = useNavigate();
     function login(){
         navigate('/login');
@@ -73,6 +78,7 @@ function Header() {
             </div>
             
             <div className="header__loginBtn">
+
                 <Button variant='contained' size='small' color='common'  onClick={login}
                     sx={{height:"28px",fontWeight:"900",backgroundColor:'white',color:'green'}}>{state.user.username ?'LOGOUT' : 'LOGIN'} </Button>
             </div>
