@@ -44,25 +44,27 @@ function DonateBook() {
         {
             toast_error("Insert a valid image to submit the form");
         }
-        const formData = new FormData();
-        formData.append('image',img);
-        axiosInstance.post('/book/img', formData, {
-            responseType: 'arraybuffer',
-          })
-            .then((response)=>{
-                console.log(typeof response.data);
-                const imageBuffer = response.data;
-                const base64Image = btoa(
-                new Uint8Array(imageBuffer).reduce(
-                (data, byte) => data + String.fromCharCode(byte),'')
-                );
-                const dataURL = `data:image/jpeg;base64,${base64Image}`;
-                setSrc(dataURL);
+        else{
+            const formData = new FormData();
+            formData.append('image',img);
+            axiosInstance.post('/book/img', formData, {
+                responseType: 'arraybuffer',
             })
-            .catch((err)=>{
-                console.log(err);
-                toast_error("Please login. (if problem still persist contact admin)");
-            });
+                .then((response)=>{
+                    console.log(typeof response.data);
+                    const imageBuffer = response.data;
+                    const base64Image = btoa(
+                    new Uint8Array(imageBuffer).reduce(
+                    (data, byte) => data + String.fromCharCode(byte),'')
+                    );
+                    const dataURL = `data:image/jpeg;base64,${base64Image}`;
+                    setSrc(dataURL);
+                })
+                .catch((err)=>{
+                    console.log(err);
+                    toast_error("Please login. (if problem still persist contact admin)");
+                });
+        }
     };
 
 

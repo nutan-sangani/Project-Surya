@@ -1,38 +1,9 @@
 const { Book } = require('../models');
-const { config } = require('../config');
 const sharp = require('sharp');
-const { customError } = require('../utils');
+const { customError, uploadImg } = require('../utils');
 const { BOOKSERVICE, USERSERVICE } = require('../services');
 const httpStatus = require('http-status');
 const { getRes } = require('../utils/responseTemplate');
-
-const cloudinary = require('cloudinary').v2;
-
-cloudinary.config({
-    cloud_name: config.cloudinary.cloud_name,
-    api_key: config.cloudinary.api_key,
-    api_secret: config.cloudinary.api_secret,
-});
-
-const img_uploader = async(image_data,file_type) => {
-    let buffer;
-    try{
-        await sharp(image_data).jpeg({quality:10})
-                                          .toBuffer()
-                                          .then(async (data)=> { buffer=data; })
-                                          .catch((err)=>{ throw new customError('IMAGE_COMPRESSION_ERROR',401,
-                                          'Try again after sometime or try contacting the admin of the website',err);});
-        let img_string = buffer.toString('base64');
-        img_string = 'data:'+file_type+';base64,'+img_string;
-        const url = await cloudinary.uploader.upload(img_string);
-        return url;
-    }
-    catch(err){
-        console.log(err);
-        next(err);
-    }
-    
-}
 
 const CONTROLLER = {
     check_img : async (req,res,next) => { //here we will send basic buffer only, since it is faster, we will use the storage only for real objects
@@ -54,7 +25,7 @@ const CONTROLLER = {
             const binary_data=req.files.image.data;
             const file_type=req.files.image.mimetype;
             let url;
-            url = await img_uploader(binary_data,file_type);
+            url = await uploadImg(binary_data,file_type);
             req.body.img = url.secure_url;
             req.body.donor = req.user._id;
             req.body.donatedAt = new Date();
@@ -72,7 +43,7 @@ const CONTROLLER = {
     getBooks : async(req,res,next) => {
         try{
             const options = req.query;
-            options.populate = {path:'donor', select:'username donated institute'};
+            options.populate = {path:'donor', select:'username donated institute _id'};
             const book = await BOOKSERVICE.getPaginatedBooks(options);
             res.status(httpStatus.OK).send(book);
         }
@@ -89,7 +60,7 @@ const CONTROLLER = {
             let options = {};
             options.limit = limit;
             options.page = page;
-            options.populate = {path:'donor', select : 'username donated institute'};
+            options.populate = {path:'donor', select : 'username donated institute _id'};
             const words = queryText.split(' ');
             console.log(words);
             let filter = {};
