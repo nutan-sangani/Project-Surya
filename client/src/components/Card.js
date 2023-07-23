@@ -32,10 +32,10 @@ function Card(props) {
           donor_institute={props.donor.institute} />
         <div className="card__city">
           <p>{props.book_city}</p>
-        </div>
-        <button onClick={() => request_now()} className='card__btn' type='submit'>
-          Request Now
-        </button>
+        </div> 
+        {props.button || <button onClick={request_now} className='card__btn' type='submit'>
+          {'Request Now'}
+        </button>}
       </div>
     </div>
   )

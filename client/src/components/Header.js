@@ -55,9 +55,9 @@ function Header() {
   return (
     <div className='contain'>
         <div className='header'>
-            <div className="header__options">
+            {/* <div className="header__options">
                 <FaBars size={'24px'} color='white'/>
-            </div>
+            </div> */}
             <div className="header__logo">
                 <Link to='/' className='header__logo'>
                     <img  src={site_logo} alt="website logo" />
