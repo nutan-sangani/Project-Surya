@@ -7,6 +7,7 @@ import PaginationDiv from '../components/PaginationDiv';
 import axiosInstance from '../utils/axiosInstance';
 import setDonor from '../utils/setDonor';
 import { toast_error } from '../utils/toastify';
+import CardMapper from '../utils/CardMapper';
 
 function SearchResults(props) {
   const [state,dispatch] = useStateContext();
@@ -32,7 +33,7 @@ function SearchResults(props) {
   return (
     <div>
       <Header/>
-      <PaginationDiv component={Card} page={state.searchResults && state.searchResults.page} count={state.searchResults && state.searchResults.totalPages} changeFn={changeHandler} data={state.searchResults.results} classes='home--container no--img'  />
+      <PaginationDiv component={CardMapper} page={state.searchResults && state.searchResults.page} count={state.searchResults && state.searchResults.totalPages} changeFn={changeHandler} data={state.searchResults.results} classes='home--container no--img'  />
     </div>
   )
 };

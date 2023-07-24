@@ -4,9 +4,10 @@ import Login from './pages/Login';
 import Home from './pages/Home';
 import DonateBook from './pages/DonateBook';
 import { ToastContainer } from 'react-toastify';
-
 import SearchResults from './pages/SearchResults';
 import Requests from './pages/Requests';
+import Header from './components/Header';
+import UserBooks from './pages/UserBook';
 
 
 function App() {
@@ -33,6 +34,12 @@ function App() {
             <Route path='/request'
               element = {<Requests/>}
             />
+            <Route path='/userBook'
+              element = {<div>
+                          <Header/>
+                          <UserBooks />
+                         </div>}
+            />
           </Routes>
         </Router>
     </div>
@@ -40,4 +47,3 @@ function App() {
 }
 
 export default App;
-//<Login button_text="SIGNUP" signup="1"/>

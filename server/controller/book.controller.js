@@ -98,11 +98,36 @@ const CONTROLLER = {
     },
 
     getUserBooks : async (req,res,next) => {
-        const userId = new mongoose.Types.ObjectId(req.user._id);
-        const books = await BOOKSERVICE.getPaginatedBooks({donor:userId,isDeleted:false});
-        if(books.results.length==0)
-            res.send(getRes(0,null,null,'No books Found'));
-        res.status(httpStatus.FOUND).send(getRes(1,books,null,'Books successfully fetched'));
+        //take this user route to user route and find in user model this user and populate all his donated books, similar for requests
+        //this would be easy, since we are indexing the book based on bookid and not userid, so if we know the bookid in advance, than
+        //deleting it is efficient, else either we have to index based on userId too or check the whole collectio for that userId (which is inefficient).
+
+        //we can index on userId, but still it would be costly than searching whole donated arr in user model, to delete that book
+        //since user will hardly donate 10-100 books but the constant factor in logn time insertion in b+tree would be larger, and even if 
+        //there's a bot doing something suspicious, we are only making isDeleted=false, so we can catch the suspicious activity.
+        //or check deleted length greater than 10 or etc.
+        try{
+            const options = req.query;
+            console.log(options);
+            options.populate={path:'donor',select:'username institute donated _id'}
+            const userId = new mongoose.Types.ObjectId(req.user._id);
+            const books = await BOOKSERVICE.getPaginatedBooks(options,{donor:userId,isDeleted:false});
+            if(books.results.length==0)
+                res.send(getRes(0,null,null,'No books Found'));
+            res.status(httpStatus.FOUND).send(getRes(1,books,null,'Books successfully fetched'));
+        }
+        catch(err){
+            console.err(err);
+            next(err);
+        }
+    },
+
+    deleteBook : async (req,res,next) => {
+        const bookId=req.body.bookId;
+        const userId = req.user._id;
+        const deleted = await BOOKSERVICE.deleteBook(bookId,userId);
+        //check if the userId is matching the books donorId, since anyone should not be able to delete anyone's book
+
     }
 };
 

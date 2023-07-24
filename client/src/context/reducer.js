@@ -7,8 +7,8 @@ export const initial_state = {
         email:'',
         mobile:'',
     },
-    requests : [],
-    donated : [],
+    requests : {},
+    donated : {},
     searchResults :{},
     curr_request:{},
 };
@@ -25,10 +25,6 @@ export const reducer = (state,action) =>{
                 mobile : action.payload.mobile,
             };
             state.user=user;
-            if(action.payload.requests.length !== 0)
-                state.requests = action.payload.requests;
-            if(action.payload.donated.length !==0)
-                state.donated = action.payload.donated;
             //have done such elaborate method, since the response from backend is mixed, we could have change the structure in the backend, but that would
             //change the response structure, also i dont know how to take selective things from an object in frontend. (thus ellaborate).
             return {
@@ -58,7 +54,15 @@ export const reducer = (state,action) =>{
             return {
                 ...state,
             };
-
+        
+        case 'ADD_USER_DONATED_BOOKS' :
+            const data = action.payload;
+            state.donated = data;
+            console.log(state.donated);
+            console.log(data);
+            return {
+                ...state,
+            }
         
         default :
             alert("default");

@@ -2,6 +2,7 @@ import React from 'react';
 import Pagination  from '@mui/material/Pagination';
 import Card from './Card';
 import './css/PaginationDiv.css';
+import CardMapper from '../utils/CardMapper';
 
 function PaginationDiv(props) {
 
@@ -13,18 +14,8 @@ function PaginationDiv(props) {
 
   return (
     <div>
-      <div className={props.classes}>
-        {userFeed && userFeed.map((bookData) => {
-          return <props.component book_title={bookData.title}
-          book_class={bookData.course}
-          book_id={bookData._id}
-          book_board={bookData.board}
-          book_img={bookData.img}
-          book_city={bookData.city}
-          donor={bookData.donor}
-         />
-        })}
-      </div>
+        <props.component btn_text={props.btn_text || ''}
+          btn_fn={props.btn_fn || null} classes={props.classes} userFeed={userFeed} />
       <div className='pagination'>  
         <Pagination size='small' page={props.page} shape='rounded' onChange={(event,page)=>handleChange(event,page)} count={props.count} color='success'/>
       </div>

@@ -7,7 +7,11 @@ router.route('/')
       .get(BookController.getBooks)
       .post(auth(),BookController.add_book);
 
-router.get('/userBooks',auth(),BookController.getUserBooks);
+router.route('/userBooks')
+      .get(auth(),BookController.getUserBooks)
+      .delete(auth(),BookController.deleteBook);
+
+
 
 router.post('/img',auth(),BookController.check_img);
 

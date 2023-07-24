@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import './css/Home.css';
 import Button from '@mui/material/Button'
 import Header from '../components/Header';
-import Card from '../components/Card';
 import home_bg from '../assets/home_bg_3.jpg';
 import useStateContext from '../context/StateProvider';
 import axiosInstance from '../utils/axiosInstance';
@@ -10,6 +9,7 @@ import { Link } from 'react-router-dom';
 import setDonor from '../utils/setDonor';
 import { toast_error } from '../utils/toastify';
 import PaginationDiv from '../components/PaginationDiv';
+import CardMapper from '../utils/CardMapper';
 
 function Home() {
   const [userFeed,setUserFeed] = useState([]);
@@ -57,7 +57,7 @@ function Home() {
       <div className='home__img'>
         <img className='home__bgImg' src={home_bg} alt=''/>
       </div>
-      <PaginationDiv component={Card} page={page} count={maxPage} data={userFeed} classes='home--container' changeFn={handlePageChange} />
+      <PaginationDiv component={CardMapper} page={page} count={maxPage} data={userFeed} classes='home--container' changeFn={handlePageChange} />
     </div>
   )
 };
