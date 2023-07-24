@@ -9,7 +9,7 @@ export const initial_state = {
     },
     requests : [],
     donated : [],
-    searchResults :[],
+    searchResults :{},
     curr_request:{},
 };
 

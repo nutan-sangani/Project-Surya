@@ -24,6 +24,7 @@ html,body{
     flex-wrap: wrap;
     justify-content: space-around;
     max-width: 1440px;
+    margin: 0 auto;
     margin-top: 200px;
 }
 
