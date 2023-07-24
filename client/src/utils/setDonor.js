@@ -5,7 +5,6 @@ function setDonor(results) {
         donor.institute=result.donor.institute;
         donor.donated = result.donor.donated.length;
         donor._id = result.donor._id;
-        console.log(donor);
         result.donor = donor;
       });
     return results;

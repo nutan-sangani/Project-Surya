@@ -3,9 +3,7 @@ body{
 }
 .card--container{
     width: max-content;
-
     width: 28rem;
-
     margin-bottom: 10px;
     /* background-color: rgb(226, 215, 215); */
     background-color: white;
