@@ -1,0 +1,8 @@
+.pagination{
+    width: 80%;
+    margin: 3rem auto;
+    display: grid;
+    justify-content: center;
+    min-width: max-content;
+    max-width: 400px;
+}

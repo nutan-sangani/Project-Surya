@@ -5,7 +5,8 @@ const cb = (req,res,next) => (err,user,info) =>
 {
     if(!user)
     {
-        throw new customError('INVALID_TOKEN',401,'LOGIN AGAIN','ERROR');
+        let err = new customError('INVALID_TOKEN',401,'LOGIN AGAIN','ERROR');
+        next(err);
     }
     req.user=user;
     next();

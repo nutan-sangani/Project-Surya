@@ -4,6 +4,7 @@ const { customError, uploadImg } = require('../utils');
 const { BOOKSERVICE, USERSERVICE } = require('../services');
 const httpStatus = require('http-status');
 const { getRes } = require('../utils/responseTemplate');
+const mongoose = require('mongoose');
 
 const CONTROLLER = {
     check_img : async (req,res,next) => { //here we will send basic buffer only, since it is faster, we will use the storage only for real objects
@@ -43,9 +44,10 @@ const CONTROLLER = {
     getBooks : async(req,res,next) => {
         try{
             const options = req.query;
+            console.log(options);
             options.populate = {path:'donor', select:'username donated institute _id'};
             const book = await BOOKSERVICE.getPaginatedBooks(options);
-            res.status(httpStatus.OK).send(book);
+            res.status(httpStatus.OK).send(getRes(1,book,null,'Books fetched successfully'));
         }
         catch(err){
             console.log(err);
@@ -96,8 +98,11 @@ const CONTROLLER = {
     },
 
     getUserBooks : async (req,res,next) => {
-        const userId = req.user._id;
-        
+        const userId = new mongoose.Types.ObjectId(req.user._id);
+        const books = await BOOKSERVICE.getPaginatedBooks({donor:userId,isDeleted:false});
+        if(books.results.length==0)
+            res.send(getRes(0,null,null,'No books Found'));
+        res.status(httpStatus.FOUND).send(getRes(1,books,null,'Books successfully fetched'));
     }
 };
 

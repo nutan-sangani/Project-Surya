@@ -11,6 +11,7 @@ import useStateContext from "../context/StateProvider";
 import axiosInstance from "../utils/axiosInstance";
 import { toast_error, toast_success } from "../utils/toastify";
 
+
 function Signup(props) {
 
   const [state,dispatch] = useStateContext();
@@ -103,6 +104,7 @@ function Signup(props) {
                     {
                       const token = res.data.data.token;
                       localStorage.setItem('token',token);
+                      axiosInstance.defaults.headers.common["Authorization"] = token;
                       toast_success('Account Created Successfully');
                       navigate('/');
                     }
@@ -117,6 +119,7 @@ function Signup(props) {
                   {
                     const token = `Bearer ${res.data.data.token}`;
                     localStorage.setItem('token',token);
+                    axiosInstance.defaults.headers.common["Authorization"] = token;
                     toast_success('Successfully Logged in to Account');
                     navigate('/');
                   }
