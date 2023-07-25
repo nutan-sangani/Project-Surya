@@ -1,20 +1,21 @@
-
 import React, { useEffect, useState } from 'react'
 import './css/Home.css';
 import Button from '@mui/material/Button'
 import Header from '../components/Header';
-import Card from '../components/Card';
 import home_bg from '../assets/home_bg_3.jpg';
 import useStateContext from '../context/StateProvider';
 import axiosInstance from '../utils/axiosInstance';
 import { Link } from 'react-router-dom';
-
+import setDonor from '../utils/setDonor';
 import { toast_error } from '../utils/toastify';
+import PaginationDiv from '../components/PaginationDiv';
+import CardMapper from '../utils/CardMapper';
 
 function Home() {
-  // const donor={name:'NUTAN SANGAI',city:'Vasai',donated:2};
   const [userFeed,setUserFeed] = useState([]);
   const [state,dispatch] = useStateContext();
+  const [page,setPage] = useState(1);
+  const [maxPage,setMaxPage] = useState(1);
     useEffect(()=>{
         axiosInstance.get('/user')
              .then((res)=>{
@@ -24,47 +25,39 @@ function Home() {
               else toast_error(res.data.message) //configure this to use totastify alert.
              })
              .catch((err)=>console.log(err));
-        axiosInstance.get('/book/?limit=15')
-                     .then((res)=>{
-                      //first we'll need to get the img url, than other things.
-                      const results = res.data.results;
-                      results.forEach((result)=>{
-                        const donor = {};
-                        donor.name=result.donor.username;
-                        donor.institute=result.donor.institute;
-                        donor.donated = result.donor.donated.length;
-                        donor._id = result.donor._id;
-                        console.log(donor);
-                        result.donor = donor;
-                      });
-                      setUserFeed(results);
-                     })
-                     .catch((err) => console.log(err));
 
     },[]);
+
+    useEffect(()=>{
+      const query='limit=10&page='+page;
+      axiosInstance.get('/book/?'+query)
+      .then((res)=>{
+       if(res.data.success===1)
+       {
+         const results = setDonor(res.data.data.results);
+         setPage(res.data.data.page);
+         setMaxPage(res.data.data.totalPages);
+         setUserFeed(results);
+       }
+       else toast_error(res.data.message);
+      })
+      .catch((err) => console.log(err));
+    },[page]);
+
+    function handlePageChange(page) {
+      setPage(page);
+    };
   
   return (
     <div>
-        <Header />
-
-        <Link to='/DonateBook'>
-          <Button sx={{marginTop:'10%',fontWeight:'900'}} variant='contained' size='large' color='success'> DONATE NOW </Button>
-        </Link>
-        <div className='home__img'>
-          <img className='home__bgImg' src={home_bg} alt=''/>
-        </div>
-      <div className='home--container'>
-        {userFeed.map((bookData) => {
-          return <Card book_title={bookData.title}
-          book_class={bookData.course}
-          book_id={bookData._id}
-          book_board={bookData.board}
-          book_img={bookData.img}
-          book_city={bookData.city}
-          donor={bookData.donor}
-         />
-        })}
+      <Header />
+      <Link to='/DonateBook'>
+        <Button sx={{marginTop:'10%',fontWeight:'900'}} variant='contained' size='large' color='success'> DONATE NOW </Button>
+      </Link>
+      <div className='home__img'>
+        <img className='home__bgImg' src={home_bg} alt=''/>
       </div>
+      <PaginationDiv component={CardMapper} page={page} count={maxPage} data={userFeed} classes='home--container' changeFn={handlePageChange} />
     </div>
   )
 };

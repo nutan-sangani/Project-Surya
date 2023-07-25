@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {FaBars, FaRegUserCircle} from 'react-icons/fa';
+import {FaRegUserCircle} from 'react-icons/fa';
 import {  FaXmark } from "react-icons/fa6";
 import Button from '@mui/material/Button';
 import { Link, useNavigate } from 'react-router-dom';
@@ -9,25 +9,29 @@ import useStateContext from '../context/StateProvider';
 
 import FoundItem from './FoundItem';
 import axiosInstance from '../utils/axiosInstance'
+import setDonor from '../utils/setDonor';
 
 function Header() {
 
     const [search,setSearch] = useState("");
-    const [searchResults,setResults] = useState([]);
     const [searchSection,setSearchSection] = useState(false);
     const [style,setStyle] = useState({});
     const [state,dispatch] = useStateContext();
+    const [searchResults,setSearchResults] = useState([]);
 
     const controller = new AbortController();
 
     useEffect(()=>{
-        const query = 'text='+ search;
+        const query = 'text='+ search+'&limit=10';
         axiosInstance.get('/book/search'+`?${query}`,{signal:controller.signal})
                      .then((res) => {
                         if(res.data.success === 1)
                         {
                             console.log(res.data.data.results);
-                            setResults(res.data.data.results);
+                            const results = setDonor(res.data.data.results);
+                            res.data.data.results=results;
+                            res.data.data.query=query;
+                            setSearchResults(res.data.data);
                         }})
                      .catch((err)=>console.log(err));
 
@@ -56,9 +60,6 @@ function Header() {
   return (
     <div className='contain'>
         <div className='header'>
-            {/* <div className="header__options">
-                <FaBars size={'24px'} color='white'/>
-            </div> */}
             <div className="header__logo">
                 <Link to='/' className='header__logo'>
                     <img  src={site_logo} alt="website logo" />
@@ -70,7 +71,7 @@ function Header() {
                     <FaXmark onClick={closeSearch}/>
                 </div>
                 
-                {searchSection && <FoundItem result ={searchResults} />}
+                {searchSection && <FoundItem result={searchResults}/>}
             </div>
             
             <div className="header__loginBtn">

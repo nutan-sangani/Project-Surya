@@ -14,6 +14,16 @@ function Card(props) {
     navigate('/request');
   }
 
+  function handle(bookId){
+    if(props.fn)
+    {
+      props.fn(bookId);
+    }
+    else{
+      request_now();
+    }
+  }
+
   return (
     <div> 
       <div className='card--container'>
@@ -33,8 +43,8 @@ function Card(props) {
         <div className="card__city">
           <p>{props.book_city}</p>
         </div> 
-        {props.button || <button onClick={request_now} className='card__btn' type='submit'>
-          {'Request Now'}
+        {props.button || <button onClick={() => handle(props.book_id)} className='card__btn' type='submit'>
+          {props.text || 'Request Now'}
         </button>}
       </div>
     </div>

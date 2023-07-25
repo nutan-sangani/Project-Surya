@@ -13,10 +13,10 @@ function FoundItem(props) {
 
   return (
     <div className='search--results'>
-      { props.result.map((book)=>{
+      { props.result.results.map((book)=>{
         return (
         <Link style={{textDecoration:'none',color:'black',fontWeight:'400'}} to='/searchResults'>
-          <p onClick={handleClick}>{book.title}</p>
+          <p onClick={handleClick}>{book.title }</p>
         </Link> );
       }) }
     </div>
