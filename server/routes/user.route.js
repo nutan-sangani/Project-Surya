@@ -4,5 +4,6 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/',auth(),UserController.getUser);
+router.get('/books',auth(),UserController.getUserBooks);
 
 module.exports = router;

@@ -6,6 +6,11 @@ const SERVICES = {
         const req = await Request.create(reqBody);
         return req;
     },
+
+    checkIfExist : async(userId,bookId) => {
+        const req = await Request.findOne({book:bookId,sender:userId});
+        return req;
+    }
 };
 
 module.exports = SERVICES;

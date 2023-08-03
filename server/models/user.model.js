@@ -23,15 +23,20 @@ const userSchema = new mongoose.Schema({
         required : true,
     },
     donated : {
-        type : [mongoose.Types.ObjectId],
-        ref:'books',
-        default : [],
+        type:Number,
+        default:0,
     },
-    requests : {
-        type : [mongoose.Types.ObjectId],
-        ref : 'requests',
-        default:[],
-    }
+    // donated : {
+    //     type : [mongoose.Types.ObjectId],
+    //     ref:'Book',
+    //     default:[],
+    // },
+    // requests : {
+    //     type : [mongoose.Types.ObjectId],
+    //     ref : 'Request',
+    //     default:[],
+    // }
+    //dont need them currently, as we need paginated results, and they would not be able to provide it.
 });
 
 //putting isEmailTaken, and mobileTaken methods directly in the schema, since ye kahi aur fit nhi ho rhe, aur inke liye alag se 
