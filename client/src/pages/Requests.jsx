@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Card from '../components/Card';
 import useStateContext from '../context/StateProvider';
 import Header from '../components/Header';
@@ -22,6 +22,11 @@ function Requests(props) {
     const [img,setImg] = useState(null);
 
     const navigate = useNavigate();
+
+    useEffect(()=>{
+        const request = localStorage.getItem('request');
+        dispatch({type:'ADD_USER_REQUEST',payload:JSON.parse(request)});
+    },[]);
 
     function handleSend(event)
     {
@@ -108,7 +113,7 @@ function Requests(props) {
     };
 
     return (
-        <div >
+        <div>
             <Header/>
             <div className='home--container no--img limitWidth'>
                 <Card 

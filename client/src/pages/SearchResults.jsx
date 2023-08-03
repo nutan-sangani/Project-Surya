@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import useStateContext from '../context/StateProvider';
 import Card from '../components/Card';
@@ -11,6 +11,11 @@ import CardMapper from '../utils/CardMapper';
 
 function SearchResults(props) {
   const [state,dispatch] = useStateContext();
+
+  useEffect(()=>{
+    const searchResults = localStorage.getItem('searchResults');
+    dispatch({type:'ADD_USER_SEARCH_RESULTS',payload:JSON.parse(searchResults)});
+  },[]);
 
   function changeHandler(page){
     let query = state.searchResults.query;
@@ -33,7 +38,12 @@ function SearchResults(props) {
   return (
     <div>
       <Header/>
-      <PaginationDiv component={CardMapper} page={state.searchResults && state.searchResults.page} count={state.searchResults && state.searchResults.totalPages} changeFn={changeHandler} data={state.searchResults.results} classes='home--container no--img'  />
+      <PaginationDiv component={CardMapper} 
+        page={state.searchResults && state.searchResults.page} 
+        count={state.searchResults && state.searchResults.totalPages} 
+        changeFn={changeHandler} data={state.searchResults.results} 
+        classes='home--container no--img'  
+      />
     </div>
   )
 };

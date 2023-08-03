@@ -22,6 +22,6 @@ function CardMapper(props) {
         })}
     </div>
   )
-}
+};
 
 export default CardMapper;

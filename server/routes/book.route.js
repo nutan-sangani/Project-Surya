@@ -8,7 +8,6 @@ router.route('/')
       .post(auth(),BookController.add_book);
 
 router.route('/userBooks')
-      .get(auth(),BookController.getUserBooks)
       .delete(auth(),BookController.deleteBook);
 
 

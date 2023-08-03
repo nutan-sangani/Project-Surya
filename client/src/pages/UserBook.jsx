@@ -5,13 +5,16 @@ import { toast_error } from '../utils/toastify';
 import setDonor from '../utils/setDonor';
 import PaginationDiv from '../components/PaginationDiv';
 import CardMapper from '../utils/CardMapper';
+import { useNavigate } from 'react-router-dom';
 
 function UserBook() {
   const [state,dispatch] = useStateContext();
   const [page,setPage] = useState(1);
 
+  const navigate=useNavigate();
+
   useEffect(()=>{
-    const query='/book/userBooks?limit=10&page='+page;
+    const query='/user/books?limit=10&page='+page;
     axiosInstance.get(query)
                  .then((res) => {
                     if(res.data.success===1)
@@ -28,15 +31,15 @@ function UserBook() {
 
   function changeHandler(page){
     setPage(page);
-  }
+  };
 
   function deleteBook(bookId){
-    
+    navigate('/bookRequests');
   }
 
   return (
     <div>
-      <PaginationDiv btn_text='Delete Book Donation' 
+      <PaginationDiv btn_text='See Requests' 
       component={CardMapper} page={page} 
       btn_fn={deleteBook}
       count={state.donated && state.donated.totalPages} 
