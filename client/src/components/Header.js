@@ -10,6 +10,7 @@ import useStateContext from '../context/StateProvider';
 import FoundItem from './FoundItem';
 import axiosInstance from '../utils/axiosInstance'
 import setDonor from '../utils/setDonor';
+import { toast_error } from '../utils/toastify';
 
 function Header() {
 
@@ -38,6 +39,18 @@ function Header() {
         return () => {controller.abort();
         console.log('aborted');}
     },[search]);
+
+    useEffect(()=>{
+        axiosInstance.get('/user')
+             .then((res)=>{
+              if(res.data.success===1)
+                dispatch({type:'ADD_USER',payload:res.data.data});
+
+              else toast_error(res.data.message) //configure this to use totastify alert.
+             })
+             .catch((err)=>console.log(err));
+
+    },[]);
 
     function handleSearch(event) {
         setSearch(event.target.value);

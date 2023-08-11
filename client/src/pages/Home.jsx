@@ -16,17 +16,17 @@ function Home() {
   const [state,dispatch] = useStateContext();
   const [page,setPage] = useState(1);
   const [maxPage,setMaxPage] = useState(1);
-    useEffect(()=>{
-        axiosInstance.get('/user')
-             .then((res)=>{
-              if(res.data.success===1)
-                dispatch({type:'ADD_USER',payload:res.data.data});
+    // useEffect(()=>{
+    //     axiosInstance.get('/user')
+    //          .then((res)=>{
+    //           if(res.data.success===1)
+    //             dispatch({type:'ADD_USER',payload:res.data.data});
 
-              else toast_error(res.data.message) //configure this to use totastify alert.
-             })
-             .catch((err)=>console.log(err));
+    //           else toast_error(res.data.message) //configure this to use totastify alert.
+    //          })
+    //          .catch((err)=>console.log(err));
 
-    },[]);
+    // },[]); //find a better way for this. (currently doing everytime header is loaded)
 
     useEffect(()=>{
       const query='limit=10&page='+page;

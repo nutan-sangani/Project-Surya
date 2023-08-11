@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const bcrypt = require('bcrypt');
 const { User } = require("../models");
 const { customError } = require("../utils");
+const { USERSERVICE } = require(".");
 
 const SERVICES = {
     createUser : async (userData) => {
@@ -20,19 +21,22 @@ const SERVICES = {
         return await User.findOne(userId);
     },
 
-    addBookId : async(userId,bookId,field) => {
+    addBook : async function (userId,bookId,field) {
         if(field==='donated')
         {
-            const user = await User.findOneAndUpdate({_id:userId},{$push:{donated:bookId}},{ upsert: true, new: true });
+            // const user = await User.findOneAndUpdate({_id:userId},{$push:{donated:bookId}},{ upsert: true, new: true });
             //upsert and new are true, which will help to push to empty arrays (ie if they are empty).
-            return user;
-        }
-        else if(field==='requests')
-        {
-            const user = await User.findOneAndUpdate({_id:userId},{$push:{requests:bookId}},{ upsert: true, new: true });
-            return user;
+            const user = await this.getUserById(userId);
+            let donated = user.donated+1;
+            const updated = await this.updateUser(userId,{donated:donated});
+            return updated;
         }
         else return null;
+    },
+
+    updateUser : async(userId,updateBody) => {
+        const user = await User.findOneAndUpdate({_id:userId},updateBody);
+        return user;
     }
 };
 

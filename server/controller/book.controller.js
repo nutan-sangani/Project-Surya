@@ -31,9 +31,9 @@ const CONTROLLER = {
             req.body.donor = req.user._id;
             req.body.donatedAt = new Date();
             const new_book = await BOOKSERVICE.addBook(req.body); //passing in the image object.
-            const user = await USERSERVICE.addBookId(req.user._id,new_book._id,'donated');
+            const user = await USERSERVICE.addBook(req.user._id,new_book._id,'donated');
             //also need to add this book, in user model's donated field.
-            res.status(httpStatus.OK).send(getRes(1,user,null,'Book succesfully added'));
+            res.status(httpStatus.OK).send(getRes(1,new_book,null,'Book succesfully added')); //user
         }
         catch(error){
             console.log(error);
@@ -97,38 +97,34 @@ const CONTROLLER = {
         }
     },
 
-    getUserBooks : async (req,res,next) => {
+    // getUserBooks : async (req,res,next) => {
         //take this user route to user route and find in user model this user and populate all his donated books, similar for requests
         //this would be easy, since we are indexing the book based on bookid and not userid, so if we know the bookid in advance, than
-        //deleting it is efficient, else either we have to index based on userId too or check the whole collectio for that userId (which is inefficient).
+        //deleting it is efficient, else either we have to index based on userId too or check the whole collection for that userId (which is inefficient).
 
         //we can index on userId, but still it would be costly than searching whole donated arr in user model, to delete that book
         //since user will hardly donate 10-100 books but the constant factor in logn time insertion in b+tree would be larger, and even if 
         //there's a bot doing something suspicious, we are only making isDeleted=false, so we can catch the suspicious activity.
         //or check deleted length greater than 10 or etc.
-        try{
-            const options = req.query;
-            console.log(options);
-            options.populate={path:'donor',select:'username institute donated _id'}
-            const userId = new mongoose.Types.ObjectId(req.user._id);
-            const books = await BOOKSERVICE.getPaginatedBooks(options,{donor:userId,isDeleted:false});
-            if(books.results.length==0)
-                res.send(getRes(0,null,null,'No books Found'));
-            res.status(httpStatus.FOUND).send(getRes(1,books,null,'Books successfully fetched'));
-        }
-        catch(err){
-            console.err(err);
-            next(err);
-        }
-    },
+    // },
 
     deleteBook : async (req,res,next) => {
         const bookId=req.body.bookId;
-        const userId = req.user._id;
-        const deleted = await BOOKSERVICE.deleteBook(bookId,userId);
-        //check if the userId is matching the books donorId, since anyone should not be able to delete anyone's book
-
-    }
+        const userId = new mongoose.Types.ObjectId(req.user._id);
+        const book = await BOOKSERVICE.getBook({_id:bookId,donor:userId});
+        console.log(book);
+        if(book)
+        {
+            const deleted = await BOOKSERVICE.deleteBook({_id:book._id}); //this wil ensure that, this book donated by this user is only deleted.
+            //no one else can delete another one's book.
+            const user = await USERSERVICE.getUserById(userId);
+            let donated = user.donated-1;
+            const updated = await USERSERVICE.updateUser(userId,{donated:donated});
+            //now we also need to create a pre method which also deletes all the requests for this book.
+            res.send(getRes(1,null,null,'Successfully delete Donation'));
+        }
+        else res.send(getRes(0,null,'BOOK_NOT_FOUND','Book cannot be deleted, as you are unauthorized to delete it or no such book exist'));
+    },
 };
 
 module.exports = CONTROLLER;

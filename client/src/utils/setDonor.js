@@ -3,7 +3,7 @@ function setDonor(results) {
         const donor = {};
         donor.name=result.donor.username;
         donor.institute=result.donor.institute;
-        donor.donated = result.donor.donated.length;
+        donor.donated = result.donor.donated;
         donor._id = result.donor._id;
         result.donor = donor;
       });

@@ -7,9 +7,8 @@ export const initial_state = {
         email:'',
         mobile:'',
     },
-    requests : {},
-    donated : {},
     searchResults :{},
+    donated:{},
     curr_request:{},
 };
 
@@ -19,8 +18,8 @@ export const reducer = (state,action) =>{
         case 'ADD_USER' :
             const user = {
                 username:action.payload.username,
-                donated : action.payload.donated.length,
-                requests : action.payload.requests.length,
+                donated : action.payload.donated,
+                // requests : action.payload.requests.length,
                 email : action.payload.email,
                 mobile : action.payload.mobile,
             };
@@ -31,10 +30,7 @@ export const reducer = (state,action) =>{
                 ...state,
             };
         case 'ADD_BOOK' :
-            const donated = action.payload.donated.length;
-            state.user.donated = donated;
-            state.donated.push(action.payload.donated);
-            console.log(state);
+            state.user.donated = action.payload.donated;
             return {
                 ...state,
             };
@@ -42,6 +38,7 @@ export const reducer = (state,action) =>{
 
         case 'ADD_USER_SEARCH_RESULTS' :
             const results = action.payload;
+            localStorage.setItem('searchResults',JSON.stringify(results));
             console.log(action.payload);
             state.searchResults = results;
             return {
@@ -49,6 +46,7 @@ export const reducer = (state,action) =>{
             };
         case 'ADD_USER_REQUEST' :
             const request = action.payload;
+            localStorage.setItem('request',JSON.stringify(request));
             state.curr_request = request;
             console.log(request);
             return {
@@ -58,8 +56,6 @@ export const reducer = (state,action) =>{
         case 'ADD_USER_DONATED_BOOKS' :
             const data = action.payload;
             state.donated = data;
-            console.log(state.donated);
-            console.log(data);
             return {
                 ...state,
             }

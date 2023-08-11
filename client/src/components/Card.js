@@ -12,7 +12,7 @@ function Card(props) {
   function request_now() {
     dispatch({type:'ADD_USER_REQUEST',payload:props});
     navigate('/request');
-  }
+  };
 
   function handle(bookId){
     if(props.fn)

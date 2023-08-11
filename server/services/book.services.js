@@ -4,6 +4,10 @@ const { customError } = require("../utils");
 
 
 const SERVICES = {
+    getBook : async(filter) => {
+        return await Book.findOne(filter);
+    },
+
     addBook : async(formData) => {
         try{
             console.log(formData);
@@ -13,12 +17,15 @@ const SERVICES = {
         catch(err){
             throw new Error(err);
         }
-
     },
 
     getPaginatedBooks : async(options,filter={}) => {
         const books = await Book.paginate(filter,options);
         return books;
+    },
+
+    deleteBook : async(filter) => {
+        return await Book.deleteOne(filter);
     },
 };
 

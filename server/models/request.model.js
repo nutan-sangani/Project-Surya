@@ -5,7 +5,7 @@ const requestSchema = new mongoose.Schema({
     book :{
         type : mongoose.Types.ObjectId,
         required:true,
-        ref: 'books',
+        ref: 'Book',
     },
     contact_info : {
         type:String,
@@ -32,7 +32,7 @@ const requestSchema = new mongoose.Schema({
     donor :{
         type: mongoose.Types.ObjectId,
         required:true,
-        ref: 'users',
+        ref: 'User',
     },
     message : {
         type: String,
@@ -41,7 +41,7 @@ const requestSchema = new mongoose.Schema({
     sender: {
         type: mongoose.Types.ObjectId,
         required : true,
-        ref: 'users',
+        ref: 'User',
     },
     isAccepted : {
         type : Boolean,
