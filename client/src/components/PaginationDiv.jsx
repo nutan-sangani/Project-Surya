@@ -21,7 +21,7 @@ function PaginationDiv(props) {
       </div>
     </div>
   )
-}
+};
 
 export default PaginationDiv;
 

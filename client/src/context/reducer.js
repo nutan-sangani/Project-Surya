@@ -10,6 +10,8 @@ export const initial_state = {
     searchResults :{},
     donated:{},
     curr_request:{},
+    // bookId:'', i dont think that it is needed currently.
+    requestsForBookid:[],
 };
 
 export const reducer = (state,action) =>{
@@ -59,7 +61,13 @@ export const reducer = (state,action) =>{
             return {
                 ...state,
             }
-        
+        case 'ADD_REQUEST_FOR_BOOK':
+            const d=action.payload.results;
+            state.requestsForBookid=d;
+            console.log(state.requestsForBookid);
+            return {
+                ...state,
+            }
         default :
             alert("default");
     }

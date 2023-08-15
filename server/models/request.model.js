@@ -6,6 +6,7 @@ const requestSchema = new mongoose.Schema({
         type : mongoose.Types.ObjectId,
         required:true,
         ref: 'Book',
+        index:true,
     },
     contact_info : {
         type:String,

@@ -8,6 +8,7 @@ import SearchResults from './pages/SearchResults';
 import Requests from './pages/Requests';
 import Header from './components/Header';
 import UserBooks from './pages/UserBook';
+import BookRequests from './pages/BookRequests';
 
 
 function App() {
@@ -38,6 +39,12 @@ function App() {
               element = {<div>
                           <Header/>
                           <UserBooks />
+                         </div>}
+            />
+            <Route path='/bookRequest'
+              element = {<div>
+                          <Header/>
+                          <BookRequests />
                          </div>}
             />
           </Routes>
