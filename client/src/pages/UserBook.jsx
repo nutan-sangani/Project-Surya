@@ -33,15 +33,16 @@ function UserBook() {
     setPage(page);
   };
 
-  function deleteBook(bookId){
-    navigate('/bookRequests');
-  }
+  function goToRequest(bookId){
+    localStorage.setItem('bookId',bookId);
+    navigate('/bookRequest');
+  };
 
   return (
     <div>
-      <PaginationDiv btn_text='See Requests' 
+      <PaginationDiv btn_text='More Information' 
       component={CardMapper} page={page} 
-      btn_fn={deleteBook}
+      btn_fn={goToRequest}
       count={state.donated && state.donated.totalPages} 
       changeFn={changeHandler} 
       data={state.donated.results} 
