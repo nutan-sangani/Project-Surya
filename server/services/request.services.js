@@ -13,12 +13,41 @@ const SERVICES = {
     },
 
     getPaginatedReq : async(options,filter={}) => {
-        // console.log(filter);
-        // console.log(options);
         const req = await Request.paginate(filter,options);
-        // console.log(req);
+        console.log(req);
         return req;
     },
+
+    getRequests : async(filter={},next) => {
+        try{
+            let requests = await Request.find(filter);
+            return requests;
+        }
+        catch(err)
+        {
+            throw err;
+        }
+    },
+
+    setStatus: async (statusTo,requestId) => {
+        try
+        {
+            if(statusTo==="ACCEPTED")
+            {
+                const req = await Request.findOneAndUpdate({_id:requestId},{isAccepted:true,isPending:false,isRejected:false});
+                return req;
+            }
+            else if(statusTo==="REJECTED")
+            {
+                const req = await Request.findOneAndUpdate({_id:requestId},{isRejected:true,isPending:false,isAccepted:false});
+                return req;
+            }
+        }
+        catch(err)
+        {
+            throw err;
+        }
+    }
 };
 
 module.exports = SERVICES;

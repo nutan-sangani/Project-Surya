@@ -27,6 +27,17 @@ const SERVICES = {
     deleteBook : async(filter) => {
         return await Book.deleteOne(filter);
     },
+
+    markAsTaken : async(bookId) => {
+        try{
+            await Book.findOneAndUpdate({_id:bookId},{isTaken:true});
+            return null;
+        }
+        catch(err)
+        {
+            throw err;
+        }
+    }
 };
 
 module.exports = SERVICES;

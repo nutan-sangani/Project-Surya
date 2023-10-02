@@ -30,14 +30,16 @@ const bookSchema = new mongoose.Schema({
         ref:'User',
         index:true,
     },
-    // isDeleted:{
-    //     type:Boolean,
-    //     default:false,
-    // },
     donatedAt:{
         type:Date,
         required:true,
     },
+    isTaken : {
+        type:Boolean,
+        required:true,
+        default:false,
+    },
+    //will require a isTaken field to show that a request has been accepted.
 },{timestamps:true});
 
 bookSchema.pre('deleteOne',async function preDelete(next) {

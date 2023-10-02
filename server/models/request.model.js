@@ -44,6 +44,11 @@ const requestSchema = new mongoose.Schema({
         required : true,
         ref: 'User',
     },
+    isPending : {
+        type: Boolean,
+        required:true,
+        default:true,
+    },
     isAccepted : {
         type : Boolean,
         default : false,

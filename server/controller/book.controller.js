@@ -44,9 +44,9 @@ const CONTROLLER = {
     getBooks : async(req,res,next) => {
         try{
             const options = req.query;
-            console.log(options);
+            // console.log(options);
             options.populate = {path:'donor', select:'username donated institute _id'};
-            const book = await BOOKSERVICE.getPaginatedBooks(options);
+            const book = await BOOKSERVICE.getPaginatedBooks(options,{isTaken:false});
             res.status(httpStatus.OK).send(getRes(1,book,null,'Books fetched successfully'));
         }
         catch(err){
@@ -83,6 +83,7 @@ const CONTROLLER = {
             //for this, we will split the query in multiple words (by ' ') and than match each word, with all fields, and return a result if all the words match with some fields
             filter = {
                 $and: arr,
+                isTaken:false,
             }; //$and is for logical and.
             const found_books = await BOOKSERVICE.getPaginatedBooks(options,filter);
             if(found_books.results.length === 0)

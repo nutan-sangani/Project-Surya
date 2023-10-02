@@ -7,10 +7,17 @@ function Request(props) {
 
   function acceptHandler(event){
     event.preventDefault();
-    const body={isAccepted:true};
-    axiosInstance.post('/request/status',body)//this req only for changing status, from accepted to rejected and vice-versa
+    const body={id:props._id,isAccepted:true};
+    axiosInstance.patch('/request/status',body)//this req only for changing status, from accepted to rejected and vice-versa
                  .then((res)=>{
                     //will reject every other req, or make this accepted, and only show this now, with valid contact_info.
+                    // cannot delete, all non accepted req, since that user may change his mind latter, or may not like that person, or the receiver ghost him, so we
+                    //should give the option of accepting multiple requests.
+
+                    //or we can make 3 pages, 1 for all requests (or pending requests), 1 for accepted and 1 for rejected requests.
+                    //or better will be to have only 1 accepted, and 1 page for rejected and 1 page for pending.
+                    //if 1 is accepted, than all present at that time will be rejected. 
+                    //this also solves the problem, that receiver has already got the book and can communicate with the donor, and donor can accept another request. 
                     if(res.data.success===1)
                     {
                         dispatchEvent({type:'ADD_BOOK_REQUEST',payload:res.data.data}); 
