@@ -34,11 +34,21 @@ const bookSchema = new mongoose.Schema({
         type:Date,
         required:true,
     },
+    receiver : {
+        type: mongoose.Types.ObjectId,
+        required:false,
+        ref:'User',
+    },
     isTaken : {
         type:Boolean,
         required:true,
         default:false,
     },
+    acceptedRequestId : {
+        type: mongoose.Types.ObjectId,
+        required:false,
+        ref:'Request',
+    }
     //will require a isTaken field to show that a request has been accepted.
 },{timestamps:true});
 

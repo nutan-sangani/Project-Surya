@@ -28,10 +28,23 @@ const SERVICES = {
         return await Book.deleteOne(filter);
     },
 
-    markAsTaken : async(bookId) => {
+    markTaken : async(bookId,receiverId,taken,requestId) => {
         try{
-            await Book.findOneAndUpdate({_id:bookId},{isTaken:true});
+            const recId=taken ? receiverId : null;
+            const reqId=taken ? requestId : null;
+            await Book.findOneAndUpdate({_id:bookId},{isTaken:taken,receiver:recId,acceptedRequestId:reqId});
             return null;
+        }
+        catch(err)
+        {
+            throw err;
+        }
+    },
+
+    getRequestId : async(bookId) => {
+        try{
+            const book=await Book.findOne({_id:bookId});
+            return book.acceptedRequestId;
         }
         catch(err)
         {

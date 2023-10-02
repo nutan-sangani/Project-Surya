@@ -52,9 +52,10 @@ const CONTROLLER = {
 
     requestForBookId: async(req,res,next) => {
         try{
-            const bookId=new mongoose.Types.ObjectId(req.body.bookId);
+            console.log(req.query);
+            const bookId=new mongoose.Types.ObjectId(req.query.bookId);
             const userId=req.user._id;
-            const requestType=req.body.requestType;
+            const requestType=req.query.requestType;
             let filter={book:bookId,donor:userId,}; //conditions are remaining
             switch(requestType)
             {
@@ -84,12 +85,12 @@ const CONTROLLER = {
 
     test : async function (req,res,next)  {
         try{
-            const requestId=new mongoose.Types.ObjectId(req.body.requestId);
-            // const statusTo=req.body.statusTo;
-            const userId=req.user._id;
-            const bookId=new mongoose.Types.ObjectId(req.body.bookId);
-            const get = await rejectAllRequestsExceptCurrent(requestId,bookId,userId);
-            res.send(getRes(1,null,null,'Requests fetched successfully'));
+            // const requestId=new mongoose.Types.ObjectId(req.body.requestId);
+            // // const statusTo=req.body.statusTo;
+            // const userId=req.user._id;
+            // const bookId=new mongoose.Types.ObjectId(req.body.bookId);
+            // const get = await rejectAllRequestsExceptCurrent(requestId,bookId,userId);
+            // res.send(getRes(1,null,null,'Requests fetched successfully'));
         }
         catch(err)
         {
@@ -109,8 +110,19 @@ const CONTROLLER = {
                 case "ACCEPTED" :
                     {
                         await rejectAllRequestsExceptCurrent(requestId,bookId,userId); //we will also need to make this book taken.
-                        await BOOKSERVICE.markAsTaken(bookId);
+                        const receiverId=await REQUESTSERVICE.getSender(requestId);
+                        await BOOKSERVICE.markTaken(bookId,receiverId,true,requestId); //true means mark taken
                         await REQUESTSERVICE.setStatus(statusTo,requestId);
+                        break;
+                    }
+                case "REJECTED" :
+                    { //handling the case, that if the current book is taken by this same sender, than bring it back on the market for users to request
+                        const accptReqId=(await BOOKSERVICE.getRequestId(bookId)).toString();
+                        if(requestId===accptReqId)
+                        {
+                            await BOOKSERVICE.markTaken(bookId,null,false,null); //true means mark taken
+                        }
+                        else break;
                     }
             }
             await REQUESTSERVICE.setStatus(statusTo,requestId);

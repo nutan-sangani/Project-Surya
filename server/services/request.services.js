@@ -13,9 +13,25 @@ const SERVICES = {
     },
 
     getPaginatedReq : async(options,filter={}) => {
-        const req = await Request.paginate(filter,options);
-        console.log(req);
-        return req;
+        try{
+            const req = await Request.paginate(filter,options);
+            return req;
+        }
+        catch(err) 
+        {
+            throw err;
+        }
+    },
+
+    getSender : async(requestId) => {
+        try{
+            const request=await Request.findOne({_id:requestId});
+            return request.sender;
+        }
+        catch(err)
+        {
+            throw err;
+        }
     },
 
     getRequests : async(filter={},next) => {
