@@ -6,7 +6,9 @@ import useStateContext from '../context/StateProvider';
 import { toast_success, toast_error } from '../utils/toastify';
 import PaginationDiv from '../components/PaginationDiv';
 import RequestMapper from '../utils/RequestMapper';
-import { brown } from '@mui/material/colors';
+import Button from '@mui/material/Button';
+import './css/BookRequests.css';
+import ButtonGroup1 from '../components/ButtonGroup1';
 
 function BookRequests() {
 
@@ -15,11 +17,14 @@ function BookRequests() {
   const [page,setPage]=useState(1);
   const [maxPage,setMaxPage]=useState(1);
 
+  const [section,setSection]=useState("PENDING");
+
   useEffect(()=>{
         //get all req for this book, store them in localstore and redirect to req page
         const bookId=localStorage.getItem('bookId');
-        const query='/request/bookId?limit=2&page='+page;
-        axiosInstance.get(query,{params:{bookId:bookId}})
+        const query='/request/bookId?';
+        const body={bookId:bookId,requestType:section,limit:10,page:page};
+        axiosInstance.get(query,{params:body})
         .then((res)=>{
          if(res.data.success===1)
          {
@@ -32,18 +37,26 @@ function BookRequests() {
          console.log(err);
          toast_error(err)
         });
-  },[page]);
+  },[page,section]);
 
   function handlePageChange(page) {
     setPage(page);
   };
   const userFeed=state.requestsForBookid;
+
+  const buttonGroupClickHandler=function (name) {
+    setSection(name);
+  }
+
   return (
-    <div>
-      <p style={{width:'90%',maxWidth:'1024px', margin:'1rem auto', backgroundColor:'rgb(230, 188, 24)', padding:'1rem', fontWeight:'500'}}> Note : If you Reject a request, it will be permanently deleted.
-        And if you accept a request all the other requests will be permanently deleted.
-        So choose wisely 
+    <div className='home--container no--img limitWidth'>
+      <p style={{width:'90%',maxWidth:'1024px', margin:'1rem auto', backgroundColor:'rgb(230, 188, 24)', padding:'1rem', fontWeight:'500'}}> Note : If you Reject a request, it will move to Rejected Requests section.
+      Also if you accept a request, all the other requests will be moved to Rejected Requests section 
       </p>
+      <ButtonGroup1 options={["Pending Requests","Accepted Requests","Rejected Requests"]} names={["PENDING","ACCEPTED","REJECTED"]}
+        changeFunction={buttonGroupClickHandler}
+      />
+
         <PaginationDiv
           component={RequestMapper} 
           page={page} count={maxPage} 
@@ -55,3 +68,5 @@ function BookRequests() {
 };
 
 export default BookRequests;
+
+//default location will be pending requests, than can move to other requests.

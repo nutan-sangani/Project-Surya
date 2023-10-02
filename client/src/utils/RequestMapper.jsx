@@ -11,6 +11,7 @@ function RequestMapper(props) {
                 location={request.location}
                 contact_info={request.contact_info}
                 message={request.message}
+                _id={request._id}
             />
         })
         }

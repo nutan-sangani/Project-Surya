@@ -1,8 +1,27 @@
 const mongoose = require('mongoose');
-const { REQUESTSERVICE } = require('../services');
+const { REQUESTSERVICE, BOOKSERVICE } = require('../services');
 const { uploadImg } = require('../utils');
 const httpStatus = require('http-status');
 const { getRes } = require('../utils/responseTemplate');
+
+const rejectAllRequestsExceptCurrent =  async function(requestId,bookId,userId) {
+    try{
+        let filter={
+        book:bookId,
+        donor:userId,
+        _id:{$ne : requestId},
+        };
+        let requests=await REQUESTSERVICE.getRequests(filter);
+        requests.forEach(async (request) => {
+            await REQUESTSERVICE.setStatus("REJECTED",request._id);
+        });
+        return null;
+    }
+    catch(err)
+    {
+        throw err;
+    }
+};
 
 const CONTROLLER = {
     addRequest : async (req,res,next) => {
@@ -33,15 +52,81 @@ const CONTROLLER = {
 
     requestForBookId: async(req,res,next) => {
         try{
+            console.log(req.query);
             const bookId=new mongoose.Types.ObjectId(req.query.bookId);
             const userId=req.user._id;
-            const filter={book:bookId,donor:userId,isRejected:false};
+            const requestType=req.query.requestType;
+            let filter={book:bookId,donor:userId,}; //conditions are remaining
+            switch(requestType)
+            {
+                case "PENDING" :
+                    filter.isPending=true;
+                    break;
+                case "ACCEPTED" :
+                    filter.isAccepted=true;
+                    break;
+                case "REJECTED":
+                    filter.isRejected=true;
+                    break;
+            }
             let options = {};
             options.limit=req.query.limit;
             options.page=req.query.page;
             options.populate={path:'sender',select:'username'};
+            console.log(filter,options);
             const requests = await REQUESTSERVICE.getPaginatedReq(options,filter);
             res.send(getRes(1,requests,null,'Requests fetched successfully'));
+        }
+        catch(err){
+            console.error(err);
+            next(err);
+        }
+    },
+
+    test : async function (req,res,next)  {
+        try{
+            // const requestId=new mongoose.Types.ObjectId(req.body.requestId);
+            // // const statusTo=req.body.statusTo;
+            // const userId=req.user._id;
+            // const bookId=new mongoose.Types.ObjectId(req.body.bookId);
+            // const get = await rejectAllRequestsExceptCurrent(requestId,bookId,userId);
+            // res.send(getRes(1,null,null,'Requests fetched successfully'));
+        }
+        catch(err)
+        {
+            console.error(err);
+            next(err);
+        }
+    },
+
+    changeRequestStatus: async(req,res,next) => {
+        try{
+            const requestId=req.body.requestId;
+            const statusTo=req.body.statusTo;
+            const userId=req.user._id;
+            const bookId=new mongoose.Types.ObjectId(req.body.bookId);
+            switch(statusTo)
+            {
+                case "ACCEPTED" :
+                    {
+                        await rejectAllRequestsExceptCurrent(requestId,bookId,userId); //we will also need to make this book taken.
+                        const receiverId=await REQUESTSERVICE.getSender(requestId);
+                        await BOOKSERVICE.markTaken(bookId,receiverId,true,requestId); //true means mark taken
+                        await REQUESTSERVICE.setStatus(statusTo,requestId);
+                        break;
+                    }
+                case "REJECTED" :
+                    { //handling the case, that if the current book is taken by this same sender, than bring it back on the market for users to request
+                        const accptReqId=(await BOOKSERVICE.getRequestId(bookId)).toString();
+                        if(requestId===accptReqId)
+                        {
+                            await BOOKSERVICE.markTaken(bookId,null,false,null); //true means mark taken
+                        }
+                        else break;
+                    }
+            }
+            await REQUESTSERVICE.setStatus(statusTo,requestId);
+            res.status(httpStatus.OK).send(getRes(1,null,null,"Request "+statusTo+" successfully"));
         }
         catch(err){
             console.error(err);
