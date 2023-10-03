@@ -57,7 +57,7 @@ function UserRequests() {
             page={page}
             count={maxPage}
             changeFn={handlePageChange}
-            classes=''
+            classes='home--container no--img'
             component={UserRequestMapper}
         />
     </div>
