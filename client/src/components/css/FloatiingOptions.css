@@ -17,3 +17,10 @@
     padding: 0.55rem 0.33rem;
     border-bottom: 1px solid rgb(99, 94, 94);
 }
+
+@media (min-width:1440px) {
+    .FloatingOptions--container{
+        right: 50vw;
+        margin-right: -720px;
+    }
+}
