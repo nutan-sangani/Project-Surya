@@ -9,6 +9,7 @@ import Requests from './pages/Requests';
 import Header from './components/Header';
 import UserBooks from './pages/UserBook';
 import BookRequests from './pages/BookRequests';
+import UserRequests from './pages/UserRequests';
 
 
 function App() {
@@ -46,6 +47,13 @@ function App() {
                           <Header/>
                           <BookRequests />
                          </div>}
+            />
+            <Route path='/userRequest'
+              element={
+              <div>
+                <Header/>
+                <UserRequests/>
+              </div>}
             />
           </Routes>
         </Router>
