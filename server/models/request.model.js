@@ -34,6 +34,7 @@ const requestSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         required:true,
         ref: 'User',
+        index:true,
     },
     message : {
         type: String,
@@ -43,6 +44,7 @@ const requestSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         required : true,
         ref: 'User',
+        index:true,
     },
     isPending : {
         type: Boolean,

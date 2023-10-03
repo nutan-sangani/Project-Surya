@@ -1,4 +1,4 @@
-const { USERSERVICE, BOOKSERVICE } = require("../services");
+const { USERSERVICE, BOOKSERVICE, REQUESTSERVICE } = require("../services");
 const httpStatus = require("http-status");
 const { getRes } = require("../utils/responseTemplate");
 const mongoose = require('mongoose');
@@ -27,6 +27,35 @@ const CONTROLLER = {
         }
         catch(err){
             console.err(err);
+            next(err);
+        }
+    },
+
+    getUserRequests : async(req,res,next) => {
+        try{
+            let filter={};
+            switch(req.query.requestType)
+            {
+                case "REJECTED" :
+                    filter.isRejected=true;
+                    break;
+                case "ACCEPTED" :
+                    filter.isAccepted=true;
+                    break;
+                case "PENDING" :
+                    filter.isPending=true;
+                    break;
+            }
+            filter.sender=req.user._id;
+            let options={page:req.query.page,limit:req.query.limit};
+            options.populate={path:'book', select:'title board course city img'};
+            let userRequestsAll=await REQUESTSERVICE.getPaginatedReq(options,filter);
+            console.log(userRequestsAll);
+            res.send(getRes(1,userRequestsAll,null,"User Requests Fetched"));
+        }
+        catch(err)
+        {
+            console.log(err);
             next(err);
         }
     }

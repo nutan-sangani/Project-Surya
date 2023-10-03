@@ -12,6 +12,7 @@ export const initial_state = {
     curr_request:{},
     // bookId:'', i dont think that it is needed currently.
     requestsForBookid:[],
+    requests:[],
 };
 
 export const reducer = (state,action) =>{
@@ -65,6 +66,13 @@ export const reducer = (state,action) =>{
             const d=action.payload.results;
             state.requestsForBookid=d;
             console.log(state.requestsForBookid);
+            return {
+                ...state,
+            }
+        case "ADD_USER_REQUESTS" : 
+            const d1=action.payload.results;
+            state.requests=d1;
+            console.log(state.requests);
             return {
                 ...state,
             }
