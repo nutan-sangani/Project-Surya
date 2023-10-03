@@ -10,8 +10,8 @@ export const initial_state = {
     searchResults :{},
     donated:{},
     curr_request:{},
-    // bookId:'', i dont think that it is needed currently.
     requestsForBookid:[],
+    requests:[],
 };
 
 export const reducer = (state,action) =>{
@@ -21,7 +21,6 @@ export const reducer = (state,action) =>{
             const user = {
                 username:action.payload.username,
                 donated : action.payload.donated,
-                // requests : action.payload.requests.length,
                 email : action.payload.email,
                 mobile : action.payload.mobile,
             };
@@ -41,7 +40,7 @@ export const reducer = (state,action) =>{
         case 'ADD_USER_SEARCH_RESULTS' :
             const results = action.payload;
             localStorage.setItem('searchResults',JSON.stringify(results));
-            console.log(action.payload);
+            // console.log(action.payload);
             state.searchResults = results;
             return {
                 ...state,
@@ -50,7 +49,7 @@ export const reducer = (state,action) =>{
             const request = action.payload;
             localStorage.setItem('request',JSON.stringify(request));
             state.curr_request = request;
-            console.log(request);
+            console.log(state.curr_request);
             return {
                 ...state,
             };
@@ -64,7 +63,14 @@ export const reducer = (state,action) =>{
         case 'ADD_REQUEST_FOR_BOOK':
             const d=action.payload.results;
             state.requestsForBookid=d;
-            console.log(state.requestsForBookid);
+            // console.log(state.requestsForBookid);
+            return {
+                ...state,
+            }
+        case "ADD_USER_REQUESTS" : 
+            const d1=action.payload.results;
+            state.requests=d1;
+            // console.log(state.requests);
             return {
                 ...state,
             }

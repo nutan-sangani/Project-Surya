@@ -2,10 +2,9 @@ body{
     background-color:#e0e4dd ;
 }
 .card--container{
-    width: max-content;
+    /* width: max-content; */
     width: 28rem;
     margin-bottom: 10px;
-    /* background-color: rgb(226, 215, 215); */
     background-color: white;
     max-width: 18.75rem;
     border: 1px solid grey;

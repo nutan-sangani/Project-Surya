@@ -37,6 +37,7 @@ function Home() {
          const results = setDonor(res.data.data.results);
          setPage(res.data.data.page);
          setMaxPage(res.data.data.totalPages);
+         console.log(results);
          setUserFeed(results);
        }
        else toast_error(res.data.message);

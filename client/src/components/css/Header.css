@@ -62,4 +62,5 @@
 
 .header__profileBtn {
   margin-right: 1%;
+  cursor: pointer;
 }

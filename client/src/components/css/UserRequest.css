@@ -1,0 +1,13 @@
+.request--subsection {
+    background-color: rgb(224, 241, 182);
+    border: 1px solid black;
+    border-radius: 2px;
+    margin: 0.68rem 0.3rem;
+    padding:0rem 0.3rem;
+    font-size: 0.8rem;
+}
+.request--subsection > h4 {
+    padding:0px 0px;
+    margin: 0.3rem 0;
+    font-weight: 1500;
+}

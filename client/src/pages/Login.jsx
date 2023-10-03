@@ -102,7 +102,7 @@ function Signup(props) {
                    .then((res)=>{
                     if(res.data.success === 1)
                     {
-                      const token = res.data.data.token;
+                      const token = 'Bearer '+res.data.data.token;
                       localStorage.setItem('token',token);
                       axiosInstance.defaults.headers.common["Authorization"] = token;
                       toast_success('Account Created Successfully');

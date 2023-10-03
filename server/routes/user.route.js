@@ -5,5 +5,6 @@ const router = express.Router();
 
 router.get('/',auth(),UserController.getUser);
 router.get('/books',auth(),UserController.getUserBooks);
+router.get('/requests',auth(),UserController.getUserRequests);
 
 module.exports = router;

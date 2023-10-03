@@ -1,0 +1,26 @@
+.FloatingOptions--container{
+    width: 40vw;
+    height: max-content;
+    background-color: black;
+    opacity: 0.8;
+    z-index: 10;
+    position: absolute;
+    right: 0px;
+    border-radius: 4%;
+    padding-top: 0.4rem;
+    max-width: 300px;
+}
+.OptionsLink{
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 0.55rem 0.33rem;
+    border-bottom: 1px solid rgb(99, 94, 94);
+}
+
+@media (min-width:1440px) {
+    .FloatingOptions--container{
+        right: 50vw;
+        margin-right: -720px;
+    }
+}
