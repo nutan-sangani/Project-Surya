@@ -11,6 +11,7 @@ import FoundItem from './FoundItem';
 import axiosInstance from '../utils/axiosInstance'
 import setDonor from '../utils/setDonor';
 import { toast_error } from '../utils/toastify';
+import FloatingOptions from './FloatingOptions';
 
 function Header() {
 
@@ -19,6 +20,7 @@ function Header() {
     const [style,setStyle] = useState({});
     const [state,dispatch] = useStateContext();
     const [searchResults,setSearchResults] = useState([]);
+    const [optionsToggle,setOptionsToggle] = useState(false);
 
     const controller = new AbortController();
 
@@ -93,9 +95,8 @@ function Header() {
                     sx={{height:"28px",fontWeight:"900",backgroundColor:'white',color:'green'}}>{state.user.username ?'LOGOUT' : 'LOGIN'} </Button>
             </div>
             <div className="header__profileBtn">
-                <Link to='/profile'>
-                    <FaRegUserCircle size={'32px'} color='white'/>
-                </Link>
+                    <FaRegUserCircle onClick={()=>setOptionsToggle(!optionsToggle)} size={'32px'} color='white'/>
+                    {optionsToggle && <FloatingOptions />}
             </div>
         </div>
     </div>

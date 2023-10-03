@@ -17,7 +17,6 @@ const CONTROLLER = {
     getUserBooks : async(req,res,next) => { //here we didn't use donated in user, since we need paginated results. and donated would contain all the results
         try{
             const options = req.query;
-            console.log(options);
             options.populate={path:'donor',select:'username institute donated _id'}
             const userId = new mongoose.Types.ObjectId(req.user._id);
             const books = await BOOKSERVICE.getPaginatedBooks(options,{donor:userId});
@@ -50,7 +49,6 @@ const CONTROLLER = {
             let options={page:req.query.page,limit:req.query.limit};
             options.populate={path:'book', select:'title board course city img'};
             let userRequestsAll=await REQUESTSERVICE.getPaginatedReq(options,filter);
-            console.log(userRequestsAll);
             res.send(getRes(1,userRequestsAll,null,"User Requests Fetched"));
         }
         catch(err)

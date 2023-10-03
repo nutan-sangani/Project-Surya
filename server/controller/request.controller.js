@@ -52,7 +52,6 @@ const CONTROLLER = {
 
     requestForBookId: async(req,res,next) => {
         try{
-            console.log(req.query);
             const bookId=new mongoose.Types.ObjectId(req.query.bookId);
             const userId=req.user._id;
             const requestType=req.query.requestType;
@@ -73,7 +72,6 @@ const CONTROLLER = {
             options.limit=req.query.limit;
             options.page=req.query.page;
             options.populate={path:'sender',select:'username'};
-            console.log(filter,options);
             const requests = await REQUESTSERVICE.getPaginatedReq(options,filter);
             res.send(getRes(1,requests,null,'Requests fetched successfully'));
         }

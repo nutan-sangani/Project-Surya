@@ -1,8 +1,6 @@
 import React from 'react';
 import Pagination  from '@mui/material/Pagination';
-import Card from './Card';
 import './css/PaginationDiv.css';
-import CardMapper from '../utils/CardMapper';
 
 function PaginationDiv(props) {
 
