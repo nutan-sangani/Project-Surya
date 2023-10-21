@@ -6,21 +6,24 @@ const userDataSchema = new mongoose.Schema({
         type:mongoose.Types.ObjectId,
         required:true,
         ref:'User',
+        index:true,
     },
     donated:{
-        types:[mongoose.Types.ObjectId],
-        default:[],
+        type:[mongoose.Types.ObjectId],
+        required:true,
         ref:'Book',
+        default:[],
     },
     requests:{
-        types:[mongoose.Types.ObjectId],
-        default:[],
+        type:[mongoose.Types.ObjectId],
+        required:true,
         ref:'Request',
+        default:[],
     },
 });
 
 userDataSchema.plugin(paginate);
 
-const UserData = mongoose.model('userData',userDataSchema);
+const UserData = new mongoose.model('UserData',userDataSchema);
 
 module.exports = UserData;

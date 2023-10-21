@@ -1,6 +1,4 @@
 const express = require("express");
-const { Server } = require('socket.io');
-
 const mongoose = require("mongoose");
 const { connect,errorHandler,customError } = require('./utils');
 const morgan = require('morgan');
