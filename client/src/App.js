@@ -10,6 +10,7 @@ import Header from './components/Header';
 import UserBooks from './pages/UserBook';
 import BookRequests from './pages/BookRequests';
 import UserRequests from './pages/UserRequests';
+import ChatRooms from './pages/ChatRooms';
 
 
 function App() {
@@ -54,6 +55,14 @@ function App() {
                 <Header/>
                 <UserRequests/>
               </div>}
+            />
+            <Route path='/Userchats'
+              element={
+                <div>
+                  <Header/>
+                  <ChatRooms/>
+                </div>
+              }
             />
           </Routes>
         </Router>

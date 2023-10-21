@@ -1,4 +1,6 @@
 const express = require("express");
+const { Server } = require('socket.io');
+
 const mongoose = require("mongoose");
 const { connect,errorHandler,customError } = require('./utils');
 const morgan = require('morgan');
@@ -16,6 +18,8 @@ const routes = require("./routes");
 const httpStatus = require("http-status");
 const { errorMiddleware } = require('./middlewares');
 
+const socketServer = require('./socket.server.js');
+
 const  app = express();
 
 app.use(morgan("tiny"));
@@ -27,9 +31,6 @@ app.use(fileUpload());
 app.use(cors());
 app.options("*",cors());
 
-// mongoose.connect("mongodb://127.0.0.1:27017/BookForAll")
-//        .then(()=> console.log("connected to db"))
-//        .catch((err) => console.log(err));
 connect();
 
 app.use(passport.initialize());
@@ -48,10 +49,27 @@ app.use(errorMiddleware.errorConverter); //converts Error to customError.
 
 app.use(errorMiddleware.customErrorHandler); //generates res for customError.
 
-app.listen(config.port,function(err){
+const server = app.listen(config.port,function(err){
     if(err) console.log(err);
     else console.log(`listening on port ${config.port}`);
 });
+
+// const io=new Server(server,{
+//     pingTimeout: 60000,
+//   cors: {
+//     origin: "http://localhost:3000",
+//   },
+// });
+
+socketServer(server);
+
+
+// io.on('connection',function(socket){
+//     console.log("jai shree ram");
+//     socket.on('chat message',(msg)=>{
+//         console.log("hey there");
+//     });
+// });
 
 //got to learn lots of new things about middlewares, especially error handling middlewares
 
