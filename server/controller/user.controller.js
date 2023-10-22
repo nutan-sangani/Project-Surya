@@ -25,7 +25,7 @@ const CONTROLLER = {
             res.status(httpStatus.FOUND).send(getRes(1,books,null,'Books successfully fetched'));
         }
         catch(err){
-            console.err(err);
+            console.error(err);
             next(err);
         }
     },

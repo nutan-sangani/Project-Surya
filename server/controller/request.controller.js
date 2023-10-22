@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { REQUESTSERVICE, BOOKSERVICE } = require('../services');
+const { REQUESTSERVICE, BOOKSERVICE, USERDATASERVICE } = require('../services');
 const { uploadImg } = require('../utils');
 const httpStatus = require('http-status');
 const { getRes } = require('../utils/responseTemplate');
@@ -42,6 +42,8 @@ const CONTROLLER = {
             const img_url = await uploadImg(bin_data,file_type);
             reqData.proof=img_url.secure_url;
             const request = await REQUESTSERVICE.createRequest(reqData);
+            const ack = await USERDATASERVICE.addUserRequest(req.user._id,request._id);
+            console.log(ack);
             return res.status(httpStatus.CREATED).send(getRes(1,request,null,'Request added successfully'));
         }
         catch(err){
@@ -115,7 +117,14 @@ const CONTROLLER = {
                     }
                 case "REJECTED" :
                     { //handling the case, that if the current book is taken by this same sender, than bring it back on the market for users to request
-                        const accptReqId=(await BOOKSERVICE.getRequestId(bookId)).toString();
+                        console.error(bookId);
+                        const bd=(await BOOKSERVICE.getRequestId(bookId));
+                        let accptReqId;
+                        if(bd === undefined) //to handle the case, if 1st req ko reject krna and abhi tak kisi ko accept nhi kiya toh.
+                            break;
+                        else
+                            accptReqId = bd.toString();
+
                         if(requestId===accptReqId)
                         {
                             await BOOKSERVICE.markTaken(bookId,null,false,null); //true means mark taken

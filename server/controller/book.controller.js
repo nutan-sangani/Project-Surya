@@ -5,6 +5,7 @@ const { BOOKSERVICE, USERSERVICE } = require('../services');
 const httpStatus = require('http-status');
 const { getRes } = require('../utils/responseTemplate');
 const mongoose = require('mongoose');
+const { USERDATASERVICE } = require('../services');
 
 const CONTROLLER = {
     check_img : async (req,res,next) => { //here we will send basic buffer only, since it is faster, we will use the storage only for real objects
@@ -32,6 +33,7 @@ const CONTROLLER = {
             req.body.donatedAt = new Date();
             const new_book = await BOOKSERVICE.addBook(req.body); //passing in the image object.
             const user = await USERSERVICE.addBook(req.user._id,new_book._id,'donated');
+            const ack = await USERDATASERVICE.addUserBook(req.user._id,new_book._id);
             //also need to add this book, in user model's donated field.
             res.status(httpStatus.OK).send(getRes(1,new_book,null,'Book succesfully added')); //user
         }
