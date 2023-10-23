@@ -73,7 +73,7 @@ const CONTROLLER = {
             // chatRoomId=req.body.chatRoomId;
             const msgCreated = await MESSAGESERVICE.createMessage(sender,receiver,msg); 
             const ack = await CHATROOMSERVICE.addMessageToChatRoom(msgCreated._id,chatRoomId);
-            return res.status(httpStatus.OK).send(getRes(1,msgCreated,null,));
+            // return res.status(httpStatus.OK).send(getRes(1,msgCreated,null,));
             return ack;
         }
         catch(err){
