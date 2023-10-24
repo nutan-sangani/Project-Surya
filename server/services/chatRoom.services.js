@@ -16,7 +16,7 @@ const deleteExtraMessages = async(chatRoomId) => { //called when msg > 150 only.
                 i=i+1;
             }
         });
-        const ack = await ChatRoom.findOneAndUpdate({roomId:chatRoomId},{$set:{messages:allowedMsg}},{returnOriginal:false});
+        const ack = await ChatRoom.findOneAndUpdate({roomId:chatRoomId},{$set:{messages:allowedMsg,messageCount:100}},{returnOriginal:false});
         return ack;
     }
     catch(err){

@@ -12,6 +12,8 @@ export const initial_state = {
     curr_request:{},
     requestsForBookid:[],
     requests:[],
+    chats:[],
+    chatRoomData:[],
 };
 
 export const reducer = (state,action) =>{
@@ -63,15 +65,59 @@ export const reducer = (state,action) =>{
         case 'ADD_REQUEST_FOR_BOOK':
             const d=action.payload.results;
             state.requestsForBookid=d;
-            // console.log(state.requestsForBookid);
             return {
                 ...state,
             }
         case "ADD_USER_REQUESTS" : 
             const d1=action.payload.results;
             state.requests=d1;
-            // console.log(state.requests);
             return {
+                ...state,
+            }
+        case 'ADD_USER_CHATS' :
+            const arr = action.payload;
+            let ans = [];
+            arr && arr.forEach((chat) => {
+                const username = chat.receiver ? chat.receiver.username : chat.donor.username;
+                const institute = chat.receiver ? chat.receiver.institute : chat.donor.institute;
+                const title = chat.book ? chat.book.title : chat.title;
+                const img = chat.book ? chat.book.img : chat.img;
+                const user2Id = chat.receiver ? chat.receiver._id : chat.donor._id;
+                const user1Id= chat.receiver ? chat.donor : chat.sender;
+                const obj = {
+                    bookTitle:title,
+                    user2Name:username,
+                    user2Institute : institute,
+                    bookImg:img,
+                    user1Id:user1Id,
+                    user2Id:user2Id,
+                };
+                ans.push(obj);
+            });
+            state.chats=ans;
+            return {
+                ...state,
+            }
+        case 'ADD_MESSAGE_TO_CHATROOM' : 
+            const messages = action.payload;
+            let op = state.chatRoomData;
+            messages.forEach((message) => {
+                const from = message.from;
+                const msg = message.message;
+                const obj = {
+                    from:from,
+                    message:msg,
+                };
+                op.push(obj);
+            });
+            state.chatRoomData = op;
+            console.log(state.chatRoomData);
+            return {
+                ...state,
+            }
+        case 'EMPTY_CHATROOMDATA':
+            state.chatRoomData = [];
+            return{
                 ...state,
             }
         default :

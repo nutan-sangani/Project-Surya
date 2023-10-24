@@ -10,7 +10,8 @@ import Header from './components/Header';
 import UserBooks from './pages/UserBook';
 import BookRequests from './pages/BookRequests';
 import UserRequests from './pages/UserRequests';
-import ChatRooms from './pages/ChatRooms';
+import Chat from './pages/Chat';
+import ChatRoom from './pages/ChatRooms';
 
 
 function App() {
@@ -60,7 +61,15 @@ function App() {
               element={
                 <div>
                   <Header/>
-                  <ChatRooms/>
+                  <Chat/>
+                </div>
+              }
+            />
+            <Route path='/chatRoom'
+              element={
+                <div>
+                  <Header/>
+                  <ChatRoom/>
                 </div>
               }
             />
@@ -71,3 +80,5 @@ function App() {
 }
 
 export default App;
+
+//apply validation on userName in login and book name in donateBook page

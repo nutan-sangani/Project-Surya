@@ -13,19 +13,17 @@ const socketServer = function(server) {
     io.on('connection',function(socket){
         let roomId;
         console.log("jai shree ram");
-        // socket.on('chat message',(msg)=>{
-        //     console.log("hey there");
-        // });
         socket.on('join room',(roomId)=> {
             socket.join(roomId);
-            // console.log(roomId);
             roomId = roomId;
             socket.on('send message',async (obj)=>{
-                // console.log(obj.msg);
                 await ChatRoomController.addMessageToChatRoom(obj.sender,obj.receiver,obj.msg,roomId);
-                io.to(roomId).emit('send message',obj.msg);
+                io.to(roomId).emit('send message',{message:obj.msg,from:obj.sender});
             });
         });
+        socket.on('disconnect',() => {
+            console.log('socket disconnected');
+        })
 
     });
 };

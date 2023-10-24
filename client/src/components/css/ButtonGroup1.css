@@ -1,8 +1,8 @@
 .button--group{
     display: flex;
     flex-wrap: wrap;
-    width: 100%;
+    width: 90%;
     justify-content:space-evenly;
-    margin-left: 4%;
-    margin-right: 4%;
+    margin: auto auto;
+    max-width: 1024px;
 }

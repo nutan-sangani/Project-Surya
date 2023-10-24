@@ -49,8 +49,10 @@ function UserRequests() {
         <p style={{width:'90%',maxWidth:'1024px', margin:'1rem auto', backgroundColor:'rgb(230, 188, 24)', padding:'1rem', fontWeight:'500'}}>If your request for a book is accepted, the donor may contact you on your means of 
         communication provided in the request, so keep checking it. There is also a chance that the donor may not contact, so 
         prepare for the worst and hope for the best</p>
-        <ButtonGroup1 options={["Pending Requests","Accepted Requests","Rejected Requests"]} names={["PENDING","ACCEPTED","REJECTED"]}
-            changeFunction={buttonGroupClickHandler}  
+        <ButtonGroup1 
+            buttonData = {[{text:"Pending Requests",name:"PENDING",changeFunction:buttonGroupClickHandler},
+                          {text:"Accepted Requests",name:"ACCEPTED",changeFunction:buttonGroupClickHandler},
+                          {text:"Rejected Requests",name:"REJECTED",changeFunction:buttonGroupClickHandler}]}
         />
         <PaginationDiv 
             data={userRequests}

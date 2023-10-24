@@ -2,16 +2,24 @@ import React, { useState, useEffect } from 'react';
 import { io } from "socket.io-client";
 import Button  from '@mui/material/Button'
 import { TextField } from '@mui/material';
+import useStateContext from '../context/StateProvider';
+import Message from '../components/Message';
+import axiosInstance from '../utils/axiosInstance';
+import { toast_error } from '../utils/toastify';
+import './css/ChatRoom.css';
 
 
 const socket = io("http://localhost:5000");
 
 function ChatRooms() {
 
+  const [state,dispatch] = useStateContext();
   const [typed,setTyped] = useState('');
-  const [roomId,setRoomId] = useState('64b7d5a4100cd33f29a3e1076534fbd67deba98b53ca0051');
+  let roomId = localStorage.getItem('roomId');
+  const sender = localStorage.getItem('sender');
+  const receiver = localStorage.getItem('receiver');
 
-  const [messages,setMessages] = useState(["Om ganshay namah","Hello from the server"]);
+  const [messages,setMessages] = useState(state.chatRoomData);
 
   socket.on('send message',(msg)=>{
     setMessages([...messages,msg]);
@@ -22,27 +30,40 @@ function ChatRooms() {
   });
 
   useEffect(()=>{
-    socket.emit('join room',roomId); //read this room id from localStorage.
+    socket.emit('join room',roomId);
+    axiosInstance.get('/chat/chatRoom?chatRoomId='+roomId)
+                 .then((res) => {
+                    if(res.data.success === 1)
+                    {
+                      dispatch({type:'ADD_MESSAGE_TO_CHATROOM',payload:res.data.data.messages});
+                    }
+                    else toast_error(res.data.message);
+                 })
+                 .catch((err) =>{
+                  console.log(err);
+                  toast_error(err);
+                 });
+    return () => { socket.disconnect();
+    }
   },[]);
   
   function handleSendMsg() {
-    socket.emit('send message',{msg:typed,sender:'6534fbd67deba98b53ca0051',receiver:'65353b402cc20bb7bf6445a9'});
+    socket.emit('send message',{msg:typed,sender:sender,receiver:receiver});
     setTyped('');
   };
 
   return (
-    <div>
-      {/* <div className='chat black' >
-        <h4>Om ganshay namah</h4>
-      </div> */}
+    <div className='limitWidth' style={{maxWidth:'650px',width:'85%'}}>
       {messages.map((msg)=> {
-        return (<div className='chat'>
-          <h4>{msg}</h4>
-        </div>)
+        const user1=msg.from===sender ? 'user1':'';
+        const className='messageContainer '+user1;
+        return (
+          <Message className={className} message={msg.message}/>
+        )
       })}
-      <TextField  value={typed} onChange={(event)=> setTyped(event.target.value)}>Write here</TextField>
-      <Button onClick={handleSendMsg} variant='contained' color='success'>
-        Send Message
+      <input onChange={(event) => setTyped(event.target.value)} value={typed} className='chatRoom__input' placeholder='Type Message here'></input>
+      <Button sx={{marginBottom:'16px'}} onClick={handleSendMsg} variant='contained' color='success' size='small'>
+        Send
       </Button>
     </div>
   )
