@@ -53,10 +53,11 @@ function BookRequests() {
       <p style={{width:'90%',maxWidth:'1024px', margin:'1rem auto', backgroundColor:'rgb(230, 188, 24)', padding:'1rem', fontWeight:'500'}}> Note : If you Reject a request, it will move to Rejected Requests section.
       Also if you accept a request, all the other requests will be moved to Rejected Requests section. All the new and unseen requests are present in the pending requests section 
       </p>
-      <ButtonGroup1 options={["Pending Requests","Accepted Requests","Rejected Requests"]} names={["PENDING","ACCEPTED","REJECTED"]}
-        changeFunction={buttonGroupClickHandler}
+      <ButtonGroup1 
+            buttonData = {[{text:"Pending Requests",name:"PENDING",changeFunction:buttonGroupClickHandler},
+                          {text:"Accepted Requests",name:"ACCEPTED",changeFunction:buttonGroupClickHandler},
+                          {text:"Rejected Requests",name:"REJECTED",changeFunction:buttonGroupClickHandler}]}
       />
-
         <PaginationDiv
           component={RequestMapper} 
           page={page} count={maxPage} 

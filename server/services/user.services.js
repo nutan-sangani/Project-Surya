@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
-const bcrypt = require('bcrypt');
 const { User } = require("../models");
 const { customError } = require("../utils");
+const { USERDATASERVICE } = require(".");
 
 const SERVICES = {
     createUser : async (userData) => {
