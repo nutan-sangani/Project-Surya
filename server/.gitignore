@@ -2,5 +2,8 @@ node_modules
 package-lock.json
 /node_modules
 
+dockerCompose.yaml
+
+.env
 .env.local
 .env.development.local

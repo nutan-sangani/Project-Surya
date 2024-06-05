@@ -1,0 +1,45 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "backend for Book sharing website",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "local": "cross-env NODE_ENV=local nodemon index.js",
+    "start:dev":"concurrently \"npm run local\" \"npm run start:client\"",
+    "start:client" : "cd .. && cd client && npm start",
+    "start":"node index.js"
+  },
+  "author": "nutan sangani",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cloudinary": "^1.37.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-fileupload": "^1.4.0",
+    "http-status": "^1.6.2",
+    "jsonwebtoken": "^9.0.0",
+    "moment": "^2.29.4",
+    "mongoose": "^7.2.2",
+    "morgan": "^1.10.0",
+    "multer": "^1.3.0",
+    "multer-gridfs-storage": "^1.3.0",
+    "passport": "^0.6.0",
+    "passport-jwt": "^4.0.1",
+    "sharp": "^0.32.2",
+    "socket.io": "^4.7.2"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "nodemon": "^3.0.1"
+  }
+}
