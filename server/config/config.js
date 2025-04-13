@@ -1,8 +1,10 @@
-const dotenv = require("dotenv");
-const path = require("path");
+// const dotenv = require("dotenv");
+// const path = require("path");
 
-const envFile = `../.env.${process.env.NODE_ENV}`;
-dotenv.config({path: path.join(__dirname,envFile)});
+// const envFile = `../.env.${process.env.NODE_ENV}`;
+// dotenv.config({path: path.join(__dirname,envFile)});
+
+require('dotenv').config();
 
 module.exports = {
     jwt:{

@@ -1,0 +1,14 @@
+version: '3.1'
+services:
+  reactApp:
+    image: bfa_client:2.0
+    ports:
+      - '3000:3000'
+    environment:
+      - REACT_APP_BACKEND_IP=http://localhost:5000
+    networks:
+      - testNetwork
+
+networks:
+  testNetwork:
+    external: true

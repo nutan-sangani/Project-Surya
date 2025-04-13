@@ -124,6 +124,9 @@ const CONTROLLER = {
             let donated = user.donated-1;
             const updated = await USERSERVICE.updateUser(userId,{donated:donated});
             //now we also need to create a pre method which also deletes all the requests for this book.
+
+
+            //still userdata service mese delete nhi kiya.
             res.send(getRes(1,null,null,'Successfully delete Donation'));
         }
         else res.send(getRes(0,null,'BOOK_NOT_FOUND','Book cannot be deleted, as you are unauthorized to delete it or no such book exist'));

@@ -9,7 +9,7 @@ import { toast_error } from '../utils/toastify';
 import './css/ChatRoom.css';
 
 
-const socket = io("http://localhost:5000");
+const socket = io(process.env.REACT_APP_BACKEND_IP);
 
 function ChatRooms() {
 
@@ -27,6 +27,10 @@ function ChatRooms() {
 
   socket.on('reconnect', () => {
     socket.emit('join room',roomId);
+  });
+
+  socket.on('message_empty_error',(err) => {
+    toast_error(err);
   });
 
   useEffect(()=>{

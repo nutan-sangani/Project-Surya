@@ -21,6 +21,9 @@ function FloatingOptions() {
         <Link className='OptionsLink' to='/'>
             Home
         </Link>
+        <Link className='OptionsLink' to='/UserChats'>
+            Your Chats
+        </Link>
         {state.curr_request.book_id && <Link className='OptionsLink' to='/request'>
             Request Last Visited Book
         </Link>}
