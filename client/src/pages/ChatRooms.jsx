@@ -29,6 +29,10 @@ function ChatRooms() {
     socket.emit('join room',roomId);
   });
 
+  socket.on('message_empty_error',(err) => {
+    toast_error(err);
+  });
+
   useEffect(()=>{
     socket.emit('join room',roomId);
     axiosInstance.get('/chat/chatRoom?chatRoomId='+roomId)

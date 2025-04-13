@@ -10,7 +10,7 @@ const deleteExtraMessages = async(chatRoomId) => { //called when msg > 150 only.
         let i=0;
         msg.forEach((message) => {
             count=count+1;
-            if(count>messageOverFlowLimit)
+            if(count>messageOverFlowLimit && i<100)
             {
                 allowedMsg[i]=message;
                 i=i+1;

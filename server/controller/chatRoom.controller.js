@@ -15,13 +15,13 @@ const CONTROLLER = {
                     {
                         const data = await USERDATASERVICE.getAcceptedBookUsers(req.user._id);
                         return res.status(httpStatus.OK).send(getRes(1,data,null,"CHATS FETCHED SUCCESSFULLY"));
-                        break;
+                        // break;
                     }
-                    case "REQUESTS" :
+                case "REQUESTS" :
                     {
                         const data = await USERDATASERVICE.getAcceptedRequests(req.user._id);
                         return res.status(httpStatus.OK).send(getRes(1,data,null,"CHATS FETCHED SUCCESSFULLY"));
-                        break;
+                        // break;
                     }
             }
             return res.status(httpStatus.OK).send(getRes(1,data,null,"ERROR, CONTACT developer on instagram at nutan_sangani_"));
@@ -72,7 +72,7 @@ const CONTROLLER = {
         }
         catch(err){
             console.log(err);
-            throw new Error(err);
+            throw err;
         }
     }
 };

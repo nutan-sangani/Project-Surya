@@ -10,6 +10,11 @@ const socketServer = function(server) {
         }
     });
 
+    io.on("error",function(err){
+        console.log(err.message);
+        socket.emit("error",{message : "something went wrong in the server"});
+    });
+
     io.on('connection',function(socket){
         let roomId;
         console.log("jai shree ram");
@@ -17,8 +22,14 @@ const socketServer = function(server) {
             socket.join(roomId);
             roomId = roomId;
             socket.on('send message',async (obj)=>{
-                await ChatRoomController.addMessageToChatRoom(obj.sender,obj.receiver,obj.msg,roomId);
-                io.to(roomId).emit('send message',{message:obj.msg,from:obj.sender});
+                try{
+                    await ChatRoomController.addMessageToChatRoom(obj.sender,obj.receiver,obj.msg,roomId);
+                    io.to(roomId).emit('send message',{message:obj.msg,from:obj.sender});
+                }
+                catch(err){
+                    console.log("this "+err.message);
+                    io.to(roomId).emit('message_empty_error',err.message);
+                }
             });
         });
         socket.on('disconnect',() => {
